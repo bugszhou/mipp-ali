@@ -101,7 +101,6 @@ declare namespace tinyapp {
    */
   type AppOptions<G = any> = IAppOptionsMethods
     & {
-        globalData?: G;
         [name: string]: any;
       }
     & ThisType<IAppInstance<G>>;
