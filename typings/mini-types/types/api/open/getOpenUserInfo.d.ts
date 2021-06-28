@@ -2,7 +2,7 @@
  * @file 客户端获取会员信息
  */
 declare namespace my {
-  interface IGetOpenUserInfoSuccessResult {
+  interface IGetOpenUserInfoSuccessResult1 {
     /**
      * 错误码
      */
@@ -42,6 +42,13 @@ declare namespace my {
      * 用户所在省份
      */
     readonly province: string;
+  }
+
+  interface IGetOpenUserInfoSuccessResult {
+    /**
+     * 响应值
+     */
+    readonly response: string;
   }
 
   interface IGetOpenUserInfoOptions {
