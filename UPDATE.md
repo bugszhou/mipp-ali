@@ -1,5 +1,17 @@
 # 升级`mini-typings`
 
+- 需要修改`typings/mini-types/types/app.d.ts`中`getApp`声明
+
+```javascript
+/**
+ * App 实现的接口对象
+ * 参考: https://docs.alipay.com/mini/framework/app
+ */
+type AppOptions<G = any> = IAppOptionsMethods & {
+  [name: string]: any,
+} & ThisType<IAppInstance<G>>;
+```
+
 - 需要修改`typings/mini-types/types/global.d.ts`中`getApp`声明
 
 ```javascript

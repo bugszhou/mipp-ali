@@ -12,3 +12,4 @@
 /// <reference path="./update.d.ts" />
 /// <reference path="./open.d.ts" />
 /// <reference path="./webview.d.ts" />
+/// <reference path="./getOpenUserInfo.d.ts" />
