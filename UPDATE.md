@@ -55,3 +55,5 @@ interface INavigateBaseCallbackOptions {
     complete?(): void;
   }
 ```
+
+- 需要增加`typings/mini-types/types/api/open/getOpen.d.ts`中`ITradePayOptions`声明
