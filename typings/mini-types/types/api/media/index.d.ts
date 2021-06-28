@@ -1,3 +1,5 @@
+/// <reference path="./audio.d.ts" />
+
 /**
  * @file 多媒体
  */

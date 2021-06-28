@@ -39,7 +39,7 @@ declare namespace my {
     /**
      * 调用失败的回调函数
      */
-    fail?(err: any): void;
+    fail?(err?: any): void;
 
     /**
      * 调用结束的回调函数（调用成功、失败都会执行）
