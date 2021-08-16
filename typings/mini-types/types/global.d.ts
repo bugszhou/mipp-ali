@@ -33,3 +33,8 @@ declare function Component<P, D, M extends tinyapp.IComponentMethods>(
   >
 ): void;
 /* tslint:enable:no-unnecessary-generics */
+/** 引入插件。返回插件通过 `main` 暴露的接口。 */
+declare function requirePlugin(
+  /** 需要引入的插件的 alias */
+  module: string,
+): any;
