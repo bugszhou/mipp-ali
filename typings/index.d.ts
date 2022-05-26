@@ -1,4 +1,5 @@
-/// <reference path="./mini-types/types/index.d.ts" />
+/// <reference path="./mini-types/alipay/types/index.d.ts" />
+/// <reference path="./extends/global.d.ts" />
 /// <reference path="./aliapp/index.d.ts" />
 import { Base } from "./Base/Base";
 
