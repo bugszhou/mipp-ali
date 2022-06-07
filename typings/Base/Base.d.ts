@@ -1,4 +1,10 @@
-import { IPageEvents, IShareAppMessage, RecursivePartialAndDynamic } from "../mini-types/global/types/lib.global";
+import {
+  IComponentInstance,
+  IPageEvents,
+  IShareAppMessage,
+  RecursivePartialAndDynamic,
+  UnknownRecord,
+} from "../mini-types/global/types/lib.global";
 
 type DataOption = Record<string, any>;
 
@@ -86,4 +92,56 @@ export declare class Base<IData extends DataOption> {
    * 事件处理函数对象
    */
   events: Partial<IPageEvents>;
+}
+
+export declare class MiniComponent<IData extends DataOption> {
+  /**
+   * 页面数据。
+   */
+  readonly data: IData;
+  /**
+   * 组件路径
+   */
+  readonly is: string;
+  /**
+   * 组件 id，可直接在组件 axml 中渲染值
+   */
+  readonly $id: number;
+  /**
+   * 组件所属页面实例
+   */
+  readonly $page: Record<string, any>;
+  /**
+   * 将数据从逻辑层发送到视图层
+   * @param data
+   * @param callback
+   */
+  setData(
+    data: RecursivePartialAndDynamic<IData> & Record<string, unknown>,
+    callback?: () => void
+  ): void;
+  /**
+   * 获取自定义 tabBar 实例
+   * @version 2.7.20+ 可以通过判断 `this.getTabBar` 是否为函数做兼容性处理
+   */
+  getTabBar():
+    | IComponentInstance<
+        UnknownRecord,
+        UnknownRecord,
+        UnknownRecord,
+        UnknownRecord,
+        UnknownRecord,
+        []
+      >
+    | undefined;
+  /**
+   * $spliceData 同样用于将数据从逻辑层发送到视图层，但是相比于 setData，在处理长列表的时候，其具有更高的性能。
+   * @param data
+   * @param callback
+   * @version 1.7.2+ 可以使用 my.canIUse('page.$spliceData') 做兼容性处理
+   */
+  $spliceData(
+    data: RecursivePartialAndDynamic<IData> & Record<string, unknown>,
+    callback?: () => void
+  ): void;
 }

@@ -1,19 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Base = /** @class */ (function () {
-    function Base() {
-        this.data = {};
+exports.method = void 0;
+var MiniComponent = /** @class */ (function () {
+    function MiniComponent() {
+        this.data = Object.create(null);
     }
-    Object.defineProperty(Base.prototype, "componentName", {
-        /**
-         * 组件名称，注意唯一性
-         */
-        get: function () {
-            return this.constructor.name;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return Base;
+    return MiniComponent;
 }());
-exports.default = Base;
+exports.default = MiniComponent;
+function method(UIInterface, methodName, descriptor) {
+    if (!UIInterface.methods) {
+        UIInterface.methods = Object.create(null);
+    }
+    UIInterface.methods[methodName] = descriptor.value;
+}
+exports.method = method;

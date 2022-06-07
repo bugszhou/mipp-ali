@@ -1,10 +1,14 @@
-export default class Base<IData> {
-  /**
-   * 组件名称，注意唯一性
-   */
-  get componentName(): string {
-    return this.constructor.name;
-  }
+export default class MiniComponent<IData = unknown> {
+  data: IData = Object.create(null);
+}
 
-  data = {};
+export function method(
+  UIInterface,
+  methodName,
+  descriptor: PropertyDescriptor
+) {
+  if (!UIInterface.methods) {
+    UIInterface.methods = Object.create(null);
+  }
+  UIInterface.methods[methodName] = descriptor.value;
 }
