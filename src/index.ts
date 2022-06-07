@@ -1,5 +1,5 @@
 import Base from "../dist/Page/Base";
-import Component, { method } from "./Component/Base";
+import Component, { method } from "../dist/Component/Base";
 
 export const PageBase = Base;
 export const MiniComponent = Component;

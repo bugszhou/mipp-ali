@@ -176,3 +176,9 @@ export declare class MiniComponent<IData extends DataOption> {
    */
   pageEvents: Partial<IPageEvents>;
 }
+
+export function method(
+  UIInterface: any,
+  methodName: string,
+  descriptor: PropertyDescriptor
+): void;

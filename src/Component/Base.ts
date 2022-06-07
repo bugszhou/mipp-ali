@@ -1,5 +1,13 @@
+declare global {
+  const Component: any;
+}
+
 export default class MiniComponent<IData = unknown> {
   data: IData = Object.create(null);
+
+  constructor() {
+    Component(this);
+  }
 }
 
 export function method(
