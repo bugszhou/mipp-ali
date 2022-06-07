@@ -6,6 +6,7 @@ export default class MiniComponent<IData = unknown> {
   data: IData = Object.create(null);
 
   constructor() {
+    console.log(this);
     Component(this);
   }
 }

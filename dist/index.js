@@ -22,13 +22,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MiniComponent = exports.PageBase = void 0;
+exports.method = exports.MiniComponent = exports.PageBase = void 0;
 var Base_1 = __importDefault(require("../dist/Page/Base"));
 var Base_2 = __importStar(require("../dist/Component/Base"));
 exports.PageBase = Base_1.default;
 exports.MiniComponent = Base_2.default;
+exports.method = Base_2.method;
 exports.default = {
     PageBase: exports.PageBase,
     MiniComponent: exports.MiniComponent,
-    method: Base_2.method,
+    method: exports.method,
 };

@@ -91,7 +91,7 @@ export declare class Base<IData extends DataOption> {
   /**
    * 事件处理函数对象
    */
-  events: Partial<IPageEvents>;
+  events?: Partial<IPageEvents>;
 }
 
 export declare class MiniComponent<IData extends DataOption> {
