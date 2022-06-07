@@ -4,6 +4,7 @@ exports.method = void 0;
 var MiniComponent = /** @class */ (function () {
     function MiniComponent() {
         this.data = Object.create(null);
+        Component(this);
     }
     return MiniComponent;
 }());
