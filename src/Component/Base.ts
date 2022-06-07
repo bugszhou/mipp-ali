@@ -1,3 +1,5 @@
+import clone from "rfdc";
+
 declare global {
   const Component: any;
 }
@@ -5,9 +7,24 @@ declare global {
 export default class MiniComponent<IData = unknown> {
   data: IData = Object.create(null);
 
+  private delProperties = ["constructor"];
+
   constructor() {
-    console.log(this);
-    Component(this);
+    Component(MiniComponent.serialize(this));
+  }
+
+  static serialize<T extends MiniComponent<any>>(obj: T): any {
+    const that = clone({ proto: true })(obj);
+
+    const delProperties = [
+      ...(Array.isArray(obj.delProperties) ? obj.delProperties : []),
+    ];
+
+    delProperties.forEach((item) => {
+      delete that[item];
+    });
+
+    return that;
   }
 }
 
