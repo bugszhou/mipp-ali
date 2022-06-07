@@ -1,6 +1,6 @@
 {
   "name": "mipp-ali",
-  "version": "1.12.2",
+  "version": "1.12.3",
   "description": "小程序ts",
   "main": "dist/index.js",
   "module": "dist/index.js",
