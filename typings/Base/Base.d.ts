@@ -144,4 +144,35 @@ export declare class MiniComponent<IData extends DataOption> {
     data: RecursivePartialAndDynamic<IData> & Record<string, unknown>,
     callback?: () => void
   ): void;
+  /**
+   * 组件生命周期函数，组件创建时触发
+   * @version 1.14.0+
+   */
+  onInit(): void;
+  /**
+   * 组件生命周期函数，组件创建时和更新前触发
+   *  @version 1.14.0+
+   */
+  deriveDataFromProps(nextProps: Partial<DataOption>): void;
+  /**
+   * 组件生命周期函数，组件创建完毕时触发
+   */
+  didMount(): void;
+  /**
+   * 组件生命周期函数，组件更新完毕时触发
+   */
+  didUpdate(prevProps: Partial<DataOption>, prevData: Partial<IData>): void;
+  /**
+   * 组件生命周期函数，组件删除时触发
+   */
+  didUnmount(): void;
+  /**
+   * 指定组件被ref引用时的返回值
+   * @version 1.18.0+
+   */
+  ref(): void;
+  /**
+   * 监听所属页面的事件
+   */
+  pageEvents: Partial<IPageEvents>;
 }
