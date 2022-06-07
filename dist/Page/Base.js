@@ -24,7 +24,7 @@ var Base = /** @class */ (function () {
         configurable: true
     });
     Base.serialize = function (obj) {
-        var start = Date.now();
+        // const start = Date.now();
         var that = Object.create(null);
         var delProperties = __spreadArrays(obj.delProperties);
         var allProperties = __spreadArrays(Object.keys(obj), Object.keys(Object.getPrototypeOf(obj)));
@@ -34,12 +34,11 @@ var Base = /** @class */ (function () {
             }
             that[key] = obj[key];
         });
-        try {
-            console.log(obj.componentName, " serialize time: ", Date.now() - start);
-        }
-        catch (e) {
-            console.log(e);
-        }
+        // try {
+        //   console.log(obj.componentName, " serialize time: ", Date.now() - start);
+        // } catch (e) {
+        //   console.log(e);
+        // }
         return that;
     };
     return Base;

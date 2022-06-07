@@ -15,7 +15,7 @@ export default class Base<IData> {
   private delProperties = ["constructor"];
 
   static serialize<T extends Base<any>>(obj: T): any {
-    const start = Date.now();
+    // const start = Date.now();
     const that = Object.create(null);
 
     const delProperties = [...obj.delProperties];
@@ -31,11 +31,11 @@ export default class Base<IData> {
       that[key] = obj[key];
     });
 
-    try {
-      console.log(obj.componentName, " serialize time: ", Date.now() - start);
-    } catch (e) {
-      console.log(e);
-    }
+    // try {
+    //   console.log(obj.componentName, " serialize time: ", Date.now() - start);
+    // } catch (e) {
+    //   console.log(e);
+    // }
 
     return that;
   }
