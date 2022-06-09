@@ -10,7 +10,7 @@ export default class MiniComponent<IData = unknown> {
   private delProperties = ["constructor"];
 
   constructor() {
-    Component(MiniComponent.serialize(this));
+    return MiniComponent.serialize(this);
   }
 
   static serialize<T extends MiniComponent<any>>(obj: T): any {
@@ -25,6 +25,10 @@ export default class MiniComponent<IData = unknown> {
     });
 
     return that;
+  }
+
+  static Component(componentIns: MiniComponent) {
+    Component(componentIns);
   }
 }
 

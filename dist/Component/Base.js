@@ -16,7 +16,7 @@ var MiniComponent = /** @class */ (function () {
     function MiniComponent() {
         this.data = Object.create(null);
         this.delProperties = ["constructor"];
-        Component(MiniComponent.serialize(this));
+        return MiniComponent.serialize(this);
     }
     MiniComponent.serialize = function (obj) {
         var that = rfdc_1.default({ proto: true })(obj);
@@ -25,6 +25,9 @@ var MiniComponent = /** @class */ (function () {
             delete that[item];
         });
         return that;
+    };
+    MiniComponent.Component = function (componentIns) {
+        Component(componentIns);
     };
     return MiniComponent;
 }());

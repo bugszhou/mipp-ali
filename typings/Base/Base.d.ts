@@ -175,6 +175,8 @@ export declare class MiniComponent<IData extends DataOption> {
    * 监听所属页面的事件
    */
   pageEvents: Partial<IPageEvents>;
+
+  static Component(componentIns: MiniComponent<unknown>): void;
 }
 
 export function method(
