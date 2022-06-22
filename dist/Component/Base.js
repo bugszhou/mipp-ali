@@ -18,6 +18,12 @@ var MiniComponent = /** @class */ (function () {
         this.delProperties = ["constructor"];
         return MiniComponent.serialize(this);
     }
+    MiniComponent.prototype.triggerEvent = function (eventName, data) {
+        this.props[eventName]({
+            type: eventName,
+            detail: data,
+        });
+    };
     MiniComponent.serialize = function (obj) {
         var that = rfdc_1.default({ proto: true })(obj);
         var delProperties = __spreadArrays((Array.isArray(obj.delProperties) ? obj.delProperties : []));

@@ -13,6 +13,13 @@ export default class MiniComponent<IData = unknown> {
     return MiniComponent.serialize(this);
   }
 
+  triggerEvent<IEventData = any>(eventName: string, data?: IEventData) {
+    (this as any).props[eventName]({
+      type: eventName,
+      detail: data,
+    });
+  }
+
   static serialize<T extends MiniComponent<any>>(obj: T): any {
     const that = clone({ proto: true })(obj);
 
