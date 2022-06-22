@@ -31,6 +31,12 @@ export default class MiniComponent<IData = unknown> {
       delete that[item];
     });
 
+    if (!(that as any)?.methods) {
+      (that as any).methods = Object.create(null);
+    }
+
+    (that as any).methods.triggerEvent = obj.triggerEvent;
+
     return that;
   }
 

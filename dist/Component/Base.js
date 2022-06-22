@@ -25,11 +25,16 @@ var MiniComponent = /** @class */ (function () {
         });
     };
     MiniComponent.serialize = function (obj) {
+        var _a;
         var that = rfdc_1.default({ proto: true })(obj);
         var delProperties = __spreadArrays((Array.isArray(obj.delProperties) ? obj.delProperties : []));
         delProperties.forEach(function (item) {
             delete that[item];
         });
+        if (!((_a = that) === null || _a === void 0 ? void 0 : _a.methods)) {
+            that.methods = Object.create(null);
+        }
+        that.methods.triggerEvent = obj.triggerEvent;
         return that;
     };
     MiniComponent.Component = function (componentIns) {
