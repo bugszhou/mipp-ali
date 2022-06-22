@@ -92,6 +92,8 @@ export declare class Base<IData extends DataOption> {
    * 事件处理函数对象
    */
   events?: Partial<IPageEvents>;
+
+  static render<IData = any>(componentIns: Base<IData>): void;
 }
 
 export declare class MiniComponent<IData extends DataOption> {
@@ -176,7 +178,12 @@ export declare class MiniComponent<IData extends DataOption> {
    */
   pageEvents: Partial<IPageEvents>;
 
+  /** 触发事件，参见组件事件 */
+  triggerEvent<IDetailType = any>(eventName: string, detail?: IDetailType): void;
+
   static Component(componentIns: MiniComponent<unknown>): void;
+
+  static render<IData = any>(componentIns: MiniComponent<IData>): void;
 }
 
 export function method(

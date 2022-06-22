@@ -41,6 +41,9 @@ var Base = /** @class */ (function () {
         // }
         return that;
     };
+    Base.render = function (ins) {
+        Page(ins);
+    };
     return Base;
 }());
 exports.default = Base;

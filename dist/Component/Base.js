@@ -33,6 +33,9 @@ var MiniComponent = /** @class */ (function () {
         return that;
     };
     MiniComponent.Component = function (componentIns) {
+        MiniComponent.render(componentIns);
+    };
+    MiniComponent.render = function (componentIns) {
         Component(componentIns);
     };
     return MiniComponent;

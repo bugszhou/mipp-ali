@@ -1,3 +1,7 @@
+declare global {
+  const Page: any;
+}
+
 export default class Base<IData> {
   /**
    * 页面名称，注意唯一性
@@ -38,5 +42,9 @@ export default class Base<IData> {
     // }
 
     return that;
+  }
+
+  static render<IData = any>(ins: Base<IData>) {
+    Page(ins);
   }
 }

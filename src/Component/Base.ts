@@ -35,6 +35,10 @@ export default class MiniComponent<IData = unknown> {
   }
 
   static Component(componentIns: MiniComponent) {
+    MiniComponent.render(componentIns);
+  }
+
+  static render(componentIns: MiniComponent) {
     Component(componentIns);
   }
 }
