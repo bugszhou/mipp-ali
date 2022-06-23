@@ -31,6 +31,15 @@ export default class MiniComponent<IData = unknown> {
       delete that[item];
     });
 
+    try {
+      if (typeof (that as any)?.properties === "object") {
+        (that as any).props = (that as any)?.properties;
+        delete (that as any)?.properties;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+
     if (!(that as any)?.methods) {
       (that as any).methods = Object.create(null);
     }

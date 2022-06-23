@@ -25,13 +25,22 @@ var MiniComponent = /** @class */ (function () {
         });
     };
     MiniComponent.serialize = function (obj) {
-        var _a;
+        var _a, _b, _c, _d;
         var that = rfdc_1.default({ proto: true })(obj);
         var delProperties = __spreadArrays((Array.isArray(obj.delProperties) ? obj.delProperties : []));
         delProperties.forEach(function (item) {
             delete that[item];
         });
-        if (!((_a = that) === null || _a === void 0 ? void 0 : _a.methods)) {
+        try {
+            if (typeof ((_a = that) === null || _a === void 0 ? void 0 : _a.properties) === "object") {
+                that.props = (_b = that) === null || _b === void 0 ? void 0 : _b.properties;
+                (_c = that) === null || _c === void 0 ? true : delete _c.properties;
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+        if (!((_d = that) === null || _d === void 0 ? void 0 : _d.methods)) {
             that.methods = Object.create(null);
         }
         that.methods.triggerEvent = obj.triggerEvent;
