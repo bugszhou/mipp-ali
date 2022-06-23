@@ -8,7 +8,7 @@ import {
 
 type DataOption = Record<string, any>;
 
-export declare class Base<IData extends DataOption> {
+export declare class Base<IData extends DataOption = any> {
   /**
    * 页面数据。
    */
@@ -96,7 +96,7 @@ export declare class Base<IData extends DataOption> {
   static render<IData = any>(componentIns: Base<IData>): void;
 }
 
-export declare class MiniComponent<IData extends DataOption> {
+export declare class MiniComponent<IData extends DataOption = any, IProps = any> {
   /**
    * 页面数据。
    */
@@ -113,7 +113,7 @@ export declare class MiniComponent<IData extends DataOption> {
    * 组件所属页面实例
    */
   readonly $page: Record<string, any>;
-  readonly props: this extends {properties: any} ? this["properties"] : this["props"];
+  readonly props: IProps;
   /**
    * 将数据从逻辑层发送到视图层
    * @param data
