@@ -96,7 +96,7 @@ export declare class Base<IData extends DataOption = any> {
   static render<IData = any>(componentIns: Base<IData>): void;
 }
 
-export declare class MiniComponent<IData extends DataOption = any, IProps = any> {
+export declare class MiniComponent<IData extends DataOption = DataOption, IProps = DataOption> {
   /**
    * 页面数据。
    */
