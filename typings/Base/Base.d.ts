@@ -113,6 +113,7 @@ export declare class MiniComponent<IData extends DataOption> {
    * 组件所属页面实例
    */
   readonly $page: Record<string, any>;
+  readonly props: this extends {properties: any} ? this["properties"] : this["props"];
   /**
    * 将数据从逻辑层发送到视图层
    * @param data
