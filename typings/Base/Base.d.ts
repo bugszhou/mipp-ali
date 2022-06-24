@@ -172,14 +172,27 @@ export declare class MiniComponent<
    */
   onInit(): void;
   /**
+   * 组件生命周期函数，组件创建时触发，来源于微信小程序
+   * 
+   * 等同于 onInit
+   * @version 1.14.0+
+   */
+  created(): void;
+  /**
    * 组件生命周期函数，组件创建时和更新前触发
-   *  @version 1.14.0+
+   * @version 1.14.0+
    */
   deriveDataFromProps(nextProps: Partial<DataOption>): void;
   /**
    * 组件生命周期函数，组件创建完毕时触发
    */
   didMount(): void;
+  /**
+   * 组件生命周期函数，组件创建完毕时触发，来源于微信小程序
+   * 
+   * 等同于didMount
+   */
+  ready(): void;
   /**
    * 组件生命周期函数，组件更新完毕时触发
    */
@@ -188,6 +201,24 @@ export declare class MiniComponent<
    * 组件生命周期函数，组件删除时触发
    */
   didUnmount(): void;
+  /**
+   * 组件生命周期函数，组件删除时触发，来源于微信小程序
+   *
+   * 等同于didUnmount
+   */
+  detached(): void;
+  /**
+   * 组件 js 代码抛出错误时触发
+   *
+   * @version 1.24.9+
+   */
+  onError(error: Error): void;
+  /**
+   * 每当组件方法抛出错误时执行，来源于微信小程序
+   *
+   * 等同于onError
+   */
+  error(err: Error): void;
   /**
    * 指定组件被ref引用时的返回值
    * @version 1.18.0+

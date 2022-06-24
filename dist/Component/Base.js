@@ -63,6 +63,12 @@ var MiniComponent = /** @class */ (function () {
     function MiniComponent() {
         this.data = Object.create(null);
         this.delProperties = ["constructor"];
+        this.lifetimes = {
+            created: "onInit",
+            ready: "didMount",
+            detached: "didUnmount",
+            error: "onError",
+        };
     }
     MiniComponent.prototype.triggerEvent = function (eventName, data) {
         this.props[eventName]({
@@ -90,6 +96,18 @@ var MiniComponent = /** @class */ (function () {
             that.methods = Object.create(null);
         }
         var _that = that;
+        Object.keys((obj === null || obj === void 0 ? void 0 : obj.lifetimes) || {}).forEach(function (keyName) {
+            var _a;
+            if (_that[keyName]) {
+                _that[(_a = obj === null || obj === void 0 ? void 0 : obj.lifetimes) === null || _a === void 0 ? void 0 : _a[keyName]] = _that[keyName];
+            }
+            try {
+                delete _that[keyName];
+            }
+            catch (e) {
+                console.error(e);
+            }
+        });
         _that.methods.triggerEvent = _that.triggerEvent;
         delete _that.triggerEvent;
         var fn = _that.deriveDataFromProps;
@@ -99,6 +117,7 @@ var MiniComponent = /** @class */ (function () {
                 delete _that[keyName];
             });
             delete _that.delProperties;
+            delete _that.lifetimes;
         }
         catch (e) {
             console.error(e);

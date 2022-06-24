@@ -9,6 +9,13 @@ export default class MiniComponent<IData = unknown> {
 
   private delProperties = ["constructor"];
 
+  private lifetimes = {
+    created: "onInit",
+    ready: "didMount",
+    detached: "didUnmount",
+    error: "onError",
+  };
+
   triggerEvent<IEventData = any>(eventName: string, data?: IEventData) {
     (this as any).props[eventName]({
       type: eventName,
@@ -42,6 +49,17 @@ export default class MiniComponent<IData = unknown> {
 
     const _that: any = that;
 
+    Object.keys(obj?.lifetimes || {}).forEach((keyName) => {
+      if (_that[keyName]) {
+        _that[obj?.lifetimes?.[keyName]] = _that[keyName];
+      }
+      try {
+        delete _that[keyName];
+      } catch (e) {
+        console.error(e);
+      }
+    });
+
     _that.methods.triggerEvent = _that.triggerEvent;
     delete _that.triggerEvent;
     const fn = _that.deriveDataFromProps;
@@ -52,6 +70,7 @@ export default class MiniComponent<IData = unknown> {
         delete _that[keyName];
       });
       delete _that.delProperties;
+      delete _that.lifetimes;
     } catch (e) {
       console.error(e);
     }
