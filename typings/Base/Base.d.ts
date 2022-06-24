@@ -119,7 +119,7 @@ export declare class MiniComponent<
   /**
    * 页面数据。
    */
-  readonly data: IComponentData<IData, IProps>;
+  readonly data: IData;
   /**
    * 组件路径
    */
