@@ -43,10 +43,6 @@ export default class MiniComponent<IData = unknown> {
       console.error(e);
     }
 
-    if (!(that as any)?.methods) {
-      (that as any).methods = Object.create(null);
-    }
-
     const _that: any = that;
 
     Object.keys(obj?.lifetimes || {}).forEach((keyName) => {
@@ -59,6 +55,10 @@ export default class MiniComponent<IData = unknown> {
         console.error(e);
       }
     });
+
+    if (!_that?.methods) {
+      _that.methods = Object.create(null);
+    }
 
     _that.methods.triggerEvent = _that.triggerEvent;
     delete _that.triggerEvent;
