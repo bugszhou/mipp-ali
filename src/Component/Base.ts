@@ -9,10 +9,6 @@ export default class MiniComponent<IData = unknown> {
 
   private delProperties = ["constructor"];
 
-  constructor() {
-    return MiniComponent.serialize(this);
-  }
-
   triggerEvent<IEventData = any>(eventName: string, data?: IEventData) {
     (this as any).props[eventName]({
       type: eventName,
@@ -44,20 +40,39 @@ export default class MiniComponent<IData = unknown> {
       (that as any).methods = Object.create(null);
     }
 
-    (that as any).methods.triggerEvent = obj.triggerEvent;
-
     const _that: any = that;
 
-    const fn = _that.didUpdate;
+    _that.methods.triggerEvent = _that.triggerEvent;
+    delete _that.triggerEvent;
+    const fn = _that.deriveDataFromProps;
+    const onInit = _that.onInit;
 
-    _that.didUpdate = async function (...opts) {
+    try {
+      Object.keys(_that.methods).forEach((keyName) => {
+        delete _that[keyName];
+      });
+      delete _that.delProperties;
+    } catch (e) {
+      console.error(e);
+    }
+
+    _that.onInit = async function (...opts) {
       this.data = {
         ...(this.data || {}),
         ...(this.props || {}),
       };
 
+      if (typeof onInit === "function") {
+        await onInit.apply(this, opts);
+      }
+    };
+    _that.deriveDataFromProps = async function (nextProps) {
+      this.setData({
+        ...(nextProps || {}),
+      });
+
       if (typeof fn === "function") {
-        await fn.apply(this, opts);
+        await fn.apply(this, [nextProps]);
       }
     };
 
@@ -69,7 +84,7 @@ export default class MiniComponent<IData = unknown> {
   }
 
   static render(componentIns: MiniComponent) {
-    Component(componentIns);
+    Component(MiniComponent.serialize(componentIns));
   }
 }
 

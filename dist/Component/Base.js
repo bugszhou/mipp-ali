@@ -63,7 +63,6 @@ var MiniComponent = /** @class */ (function () {
     function MiniComponent() {
         this.data = Object.create(null);
         this.delProperties = ["constructor"];
-        return MiniComponent.serialize(this);
     }
     MiniComponent.prototype.triggerEvent = function (eventName, data) {
         this.props[eventName]({
@@ -90,10 +89,21 @@ var MiniComponent = /** @class */ (function () {
         if (!((_d = that) === null || _d === void 0 ? void 0 : _d.methods)) {
             that.methods = Object.create(null);
         }
-        that.methods.triggerEvent = obj.triggerEvent;
         var _that = that;
-        var fn = _that.didUpdate;
-        _that.didUpdate = function () {
+        _that.methods.triggerEvent = _that.triggerEvent;
+        delete _that.triggerEvent;
+        var fn = _that.deriveDataFromProps;
+        var onInit = _that.onInit;
+        try {
+            Object.keys(_that.methods).forEach(function (keyName) {
+                delete _that[keyName];
+            });
+            delete _that.delProperties;
+        }
+        catch (e) {
+            console.error(e);
+        }
+        _that.onInit = function () {
             var opts = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 opts[_i] = arguments[_i];
@@ -103,8 +113,24 @@ var MiniComponent = /** @class */ (function () {
                     switch (_a.label) {
                         case 0:
                             this.data = __assign(__assign({}, (this.data || {})), (this.props || {}));
+                            if (!(typeof onInit === "function")) return [3 /*break*/, 2];
+                            return [4 /*yield*/, onInit.apply(this, opts)];
+                        case 1:
+                            _a.sent();
+                            _a.label = 2;
+                        case 2: return [2 /*return*/];
+                    }
+                });
+            });
+        };
+        _that.deriveDataFromProps = function (nextProps) {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            this.setData(__assign({}, (nextProps || {})));
                             if (!(typeof fn === "function")) return [3 /*break*/, 2];
-                            return [4 /*yield*/, fn.apply(this, opts)];
+                            return [4 /*yield*/, fn.apply(this, [nextProps])];
                         case 1:
                             _a.sent();
                             _a.label = 2;
@@ -119,7 +145,7 @@ var MiniComponent = /** @class */ (function () {
         MiniComponent.render(componentIns);
     };
     MiniComponent.render = function (componentIns) {
-        Component(componentIns);
+        Component(MiniComponent.serialize(componentIns));
     };
     return MiniComponent;
 }());

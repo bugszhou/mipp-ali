@@ -96,11 +96,30 @@ export declare class Base<IData extends DataOption = any> {
   static render<IData = any>(componentIns: Base<IData>): void;
 }
 
-export declare class MiniComponent<IData extends DataOption = DataOption, IProps = DataOption> {
+export type IComponentData<
+  IProps,
+  IData = Record<string, any>
+> = (IProps extends { properties: any }
+  ? Partial<{
+      [key in keyof IProps["properties"]]: IProps["properties"][key] extends {
+        type: any;
+      }
+        ? IProps["properties"][key]["value"]
+        : IProps["properties"][key];
+    }>
+  : IProps extends { props: any }
+  ? Partial<IProps["props"]>
+  : unknown) &
+  IData;
+
+export declare class MiniComponent<
+  IData extends DataOption = DataOption,
+  IProps = DataOption
+> {
   /**
    * 页面数据。
    */
-  readonly data: IData;
+  readonly data: IComponentData<IData, IProps>;
   /**
    * 组件路径
    */
@@ -180,7 +199,10 @@ export declare class MiniComponent<IData extends DataOption = DataOption, IProps
   pageEvents: Partial<IPageEvents>;
 
   /** 触发事件，参见组件事件 */
-  triggerEvent<IDetailType = any>(eventName: string, detail?: IDetailType): void;
+  triggerEvent<IDetailType = any>(
+    eventName: string,
+    detail?: IDetailType
+  ): void;
 
   static Component(componentIns: MiniComponent<unknown>): void;
 
