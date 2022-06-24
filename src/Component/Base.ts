@@ -46,6 +46,21 @@ export default class MiniComponent<IData = unknown> {
 
     (that as any).methods.triggerEvent = obj.triggerEvent;
 
+    const _that: any = that;
+
+    const fn = _that.didUpdate;
+
+    _that.didUpdate = async function (...opts) {
+      this.data = {
+        ...(this.data || {}),
+        ...(this.props || {}),
+      };
+
+      if (typeof fn === "function") {
+        await fn.apply(this, opts);
+      }
+    };
+
     return that;
   }
 
