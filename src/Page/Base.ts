@@ -35,6 +35,50 @@ export default class Base<IData> {
       that[key] = obj[key];
     });
 
+    const onShow = that.onShow;
+
+    that.onShow = async function (...opts) {
+      setTimeout(() => {
+        if (Array.isArray(this?.pageShow)) {
+          this?.pageShow?.forEach(async (item) => {
+            if (typeof item === "function") {
+              await item(...opts);
+            }
+          });
+        }
+      }, 0);
+
+      if (typeof onShow !== "function") {
+        return;
+      }
+
+      const result = await onShow.apply(this.opts);
+
+      return result;
+    };
+
+    const onHide = that.onHide;
+
+    that.onHide = async function (...opts) {
+      setTimeout(() => {
+        if (Array.isArray(this?.pageHide)) {
+          this?.pageHide?.forEach(async (item) => {
+            if (typeof item === "function") {
+              await item(...opts);
+            }
+          });
+        }
+      }, 0);
+
+      if (typeof onHide !== "function") {
+        return;
+      }
+
+      const result = await onHide.apply(this.opts);
+
+      return result;
+    };
+
     // try {
     //   console.log(obj.componentName, " serialize time: ", Date.now() - start);
     // } catch (e) {

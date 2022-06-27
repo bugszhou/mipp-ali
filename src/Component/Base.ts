@@ -117,3 +117,44 @@ export function method(
   }
   UIInterface.methods[methodName] = descriptor.value;
 }
+
+export function pageLifetime(
+  UIInterface,
+  methodName,
+  descriptor: PropertyDescriptor
+) {
+  const onInit = UIInterface.onInit;
+
+  UIInterface.onInit = async function (...opts) {
+    if (!this?.$page) {
+      this.$page = Object.create(null);
+    }
+
+    if (!this?.$page?.pageShow) {
+      this.$page.pageShow = [];
+    }
+
+    if (!this?.$page?.pageHide) {
+      this.$page.pageHide = [];
+    }
+    
+    if (methodName === "onShow") {
+      this.$page.pageShow.push(descriptor.value.bind(this));
+    }
+
+    if (methodName === "onHide") {
+      this.$page.pageHide.push(descriptor.value.bind(this));
+    }
+    if (typeof onInit !== "function") {
+      return;
+    }
+
+    const result = await onInit.apply(this, opts);
+
+    return result;
+  };
+}
+
+export function lifetimes() {
+  //
+}
