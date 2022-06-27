@@ -38,9 +38,9 @@ export default class Base<IData> {
     const onShow = that.onShow;
 
     that.onShow = async function (...opts) {
+      let result;
       if (typeof onShow === "function") {
-        const result = await onShow.apply(this.opts);
-        return result;
+        result = await onShow.apply(this.opts);
       }
 
       setTimeout(() => {
@@ -52,14 +52,15 @@ export default class Base<IData> {
           });
         }
       }, 0);
+      return result;
     };
 
     const onHide = that.onHide;
 
     that.onHide = async function (...opts) {
+      let result;
       if (typeof onHide === "function") {
-        const result = await onHide.apply(this.opts);
-        return result;
+        result = await onHide.apply(this.opts);
       }
 
       setTimeout(() => {
@@ -71,6 +72,7 @@ export default class Base<IData> {
           });
         }
       }, 0);
+      return result;
     };
 
     // try {

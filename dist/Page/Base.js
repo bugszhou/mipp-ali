@@ -86,7 +86,7 @@ var Base = /** @class */ (function () {
                             return [4 /*yield*/, onShow.apply(this.opts)];
                         case 1:
                             result = _a.sent();
-                            return [2 /*return*/, result];
+                            _a.label = 2;
                         case 2:
                             setTimeout(function () {
                                 var _a;
@@ -106,7 +106,7 @@ var Base = /** @class */ (function () {
                                     }); });
                                 }
                             }, 0);
-                            return [2 /*return*/];
+                            return [2 /*return*/, result];
                     }
                 });
             });
@@ -127,7 +127,7 @@ var Base = /** @class */ (function () {
                             return [4 /*yield*/, onHide.apply(this.opts)];
                         case 1:
                             result = _a.sent();
-                            return [2 /*return*/, result];
+                            _a.label = 2;
                         case 2:
                             setTimeout(function () {
                                 var _a;
@@ -147,7 +147,7 @@ var Base = /** @class */ (function () {
                                     }); });
                                 }
                             }, 0);
-                            return [2 /*return*/];
+                            return [2 /*return*/, result];
                     }
                 });
             });
