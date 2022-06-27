@@ -7,6 +7,7 @@ import {
   method,
   lifetimes,
   pageLifetime,
+  IComponentData,
 } from "./Base/Base";
 
 export class PageBase<IData extends Record<string, any>> extends Base<IData> {
@@ -14,4 +15,4 @@ export class PageBase<IData extends Record<string, any>> extends Base<IData> {
   get componentName(): string;
 }
 
-export { MiniComponent, method, lifetimes, pageLifetime };
+export { MiniComponent, method, lifetimes, pageLifetime, IComponentData };
