@@ -38,6 +38,11 @@ export default class Base<IData> {
     const onShow = that.onShow;
 
     that.onShow = async function (...opts) {
+      if (typeof onShow === "function") {
+        const result = await onShow.apply(this.opts);
+        return result;
+      }
+
       setTimeout(() => {
         if (Array.isArray(this?.pageShow)) {
           this?.pageShow?.forEach(async (item) => {
@@ -47,19 +52,16 @@ export default class Base<IData> {
           });
         }
       }, 0);
-
-      if (typeof onShow !== "function") {
-        return;
-      }
-
-      const result = await onShow.apply(this.opts);
-
-      return result;
     };
 
     const onHide = that.onHide;
 
     that.onHide = async function (...opts) {
+      if (typeof onHide === "function") {
+        const result = await onHide.apply(this.opts);
+        return result;
+      }
+
       setTimeout(() => {
         if (Array.isArray(this?.pageHide)) {
           this?.pageHide?.forEach(async (item) => {
@@ -69,14 +71,6 @@ export default class Base<IData> {
           });
         }
       }, 0);
-
-      if (typeof onHide !== "function") {
-        return;
-      }
-
-      const result = await onHide.apply(this.opts);
-
-      return result;
     };
 
     // try {

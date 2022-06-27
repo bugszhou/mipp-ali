@@ -82,6 +82,12 @@ var Base = /** @class */ (function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
+                            if (!(typeof onShow === "function")) return [3 /*break*/, 2];
+                            return [4 /*yield*/, onShow.apply(this.opts)];
+                        case 1:
+                            result = _a.sent();
+                            return [2 /*return*/, result];
+                        case 2:
                             setTimeout(function () {
                                 var _a;
                                 if (Array.isArray(_this === null || _this === void 0 ? void 0 : _this.pageShow)) {
@@ -100,13 +106,7 @@ var Base = /** @class */ (function () {
                                     }); });
                                 }
                             }, 0);
-                            if (typeof onShow !== "function") {
-                                return [2 /*return*/];
-                            }
-                            return [4 /*yield*/, onShow.apply(this.opts)];
-                        case 1:
-                            result = _a.sent();
-                            return [2 /*return*/, result];
+                            return [2 /*return*/];
                     }
                 });
             });
@@ -123,6 +123,12 @@ var Base = /** @class */ (function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
+                            if (!(typeof onHide === "function")) return [3 /*break*/, 2];
+                            return [4 /*yield*/, onHide.apply(this.opts)];
+                        case 1:
+                            result = _a.sent();
+                            return [2 /*return*/, result];
+                        case 2:
                             setTimeout(function () {
                                 var _a;
                                 if (Array.isArray(_this === null || _this === void 0 ? void 0 : _this.pageHide)) {
@@ -141,13 +147,7 @@ var Base = /** @class */ (function () {
                                     }); });
                                 }
                             }, 0);
-                            if (typeof onHide !== "function") {
-                                return [2 /*return*/];
-                            }
-                            return [4 /*yield*/, onHide.apply(this.opts)];
-                        case 1:
-                            result = _a.sent();
-                            return [2 /*return*/, result];
+                            return [2 /*return*/];
                     }
                 });
             });
