@@ -198,10 +198,10 @@ function pageLifetime(UIInterface, methodName, descriptor) {
                         if (!((_b = this === null || this === void 0 ? void 0 : this.$page) === null || _b === void 0 ? void 0 : _b.pageHide)) {
                             this.$page.pageHide = [];
                         }
-                        if (methodName === "onShow") {
+                        if (methodName === "show") {
                             this.$page.pageShow.push(descriptor.value.bind(this));
                         }
-                        if (methodName === "onHide") {
+                        if (methodName === "hide") {
                             this.$page.pageHide.push(descriptor.value.bind(this));
                         }
                         if (typeof onInit !== "function") {

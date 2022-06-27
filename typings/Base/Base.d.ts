@@ -166,6 +166,17 @@ export declare class MiniComponent<
     data: RecursivePartialAndDynamic<IData> & Record<string, unknown>,
     callback?: () => void
   ): void;
+
+  /** 页面生命周期回调—监听页面显示
+   *
+   * 页面显示/切入前台时触发。
+   */
+  show(): void;
+  /** 页面生命周期回调—监听页面隐藏
+   *
+   * 页面隐藏/切入后台时触发。 如 `navigateTo` 或底部 `tab` 切换到其他页面，小程序切入后台等。
+   */
+  hide(): void;
   /**
    * 组件生命周期函数，组件创建时触发
    * @version 1.14.0+

@@ -138,11 +138,11 @@ export function pageLifetime(
       this.$page.pageHide = [];
     }
     
-    if (methodName === "onShow") {
+    if (methodName === "show") {
       this.$page.pageShow.push(descriptor.value.bind(this));
     }
 
-    if (methodName === "onHide") {
+    if (methodName === "hide") {
       this.$page.pageHide.push(descriptor.value.bind(this));
     }
     if (typeof onInit !== "function") {
