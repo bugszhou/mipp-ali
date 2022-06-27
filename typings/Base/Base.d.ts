@@ -173,7 +173,7 @@ export declare class MiniComponent<
   onInit(): void;
   /**
    * 组件生命周期函数，组件创建时触发，来源于微信小程序
-   * 
+   *
    * 等同于 onInit
    * @version 1.14.0+
    */
@@ -189,7 +189,7 @@ export declare class MiniComponent<
   didMount(): void;
   /**
    * 组件生命周期函数，组件创建完毕时触发，来源于微信小程序
-   * 
+   *
    * 等同于didMount
    */
   ready(): void;
@@ -241,6 +241,18 @@ export declare class MiniComponent<
 }
 
 export function method(
+  UIInterface: any,
+  methodName: string,
+  descriptor: PropertyDescriptor
+): void;
+
+export function pageLifetime(
+  UIInterface: any,
+  methodName: string,
+  descriptor: PropertyDescriptor
+): void;
+
+export function lifetimes(
   UIInterface: any,
   methodName: string,
   descriptor: PropertyDescriptor
