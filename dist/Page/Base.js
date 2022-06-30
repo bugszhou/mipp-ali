@@ -83,7 +83,7 @@ var Base = /** @class */ (function () {
                     switch (_a.label) {
                         case 0:
                             if (!(typeof onShow === "function")) return [3 /*break*/, 2];
-                            return [4 /*yield*/, onShow.apply(this.opts)];
+                            return [4 /*yield*/, onShow.apply(this, opts)];
                         case 1:
                             result = _a.sent();
                             _a.label = 2;
@@ -124,7 +124,7 @@ var Base = /** @class */ (function () {
                     switch (_a.label) {
                         case 0:
                             if (!(typeof onHide === "function")) return [3 /*break*/, 2];
-                            return [4 /*yield*/, onHide.apply(this.opts)];
+                            return [4 /*yield*/, onHide.apply(this, opts)];
                         case 1:
                             result = _a.sent();
                             _a.label = 2;

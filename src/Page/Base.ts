@@ -40,7 +40,7 @@ export default class Base<IData> {
     that.onShow = async function (...opts) {
       let result;
       if (typeof onShow === "function") {
-        result = await onShow.apply(this.opts);
+        result = await onShow.apply(this, opts);
       }
 
       setTimeout(() => {
@@ -60,7 +60,7 @@ export default class Base<IData> {
     that.onHide = async function (...opts) {
       let result;
       if (typeof onHide === "function") {
-        result = await onHide.apply(this.opts);
+        result = await onHide.apply(this, opts);
       }
 
       setTimeout(() => {
