@@ -76,6 +76,14 @@ var MiniComponent = /** @class */ (function () {
             detail: data,
         });
     };
+    MiniComponent.prototype.setDataAsync = function (data) {
+        var _this = this;
+        return new Promise(function (resolve) {
+            _this.setData(data, function () {
+                resolve(void 0);
+            });
+        });
+    };
     MiniComponent.serialize = function (obj) {
         var _a, _b, _c;
         var that = rfdc_1.default({ proto: true })(obj);

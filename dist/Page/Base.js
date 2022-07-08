@@ -59,6 +59,14 @@ var Base = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Base.prototype.setDataAsync = function (data) {
+        var _this = this;
+        return new Promise(function (resolve) {
+            _this.setData(data, function () {
+                resolve(void 0);
+            });
+        });
+    };
     Base.serialize = function (obj) {
         // const start = Date.now();
         var that = Object.create(null);

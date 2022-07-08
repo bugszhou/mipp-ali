@@ -21,6 +21,16 @@ export declare class Base<IData extends DataOption = any> {
    */
   setData(data: RecursivePartialAndDynamic<IData>, callback?: () => void): void;
 
+  setDataAsync(
+    /** 这次要改变的数据
+     *
+     * 以 `key: value` 的形式表示，将 `this.data` 中的 `key` 对应的值改变成 `value`。
+     *
+     * 其中 `key` 可以以数据路径的形式给出，支持改变数组中的某一项或对象的某个属性，如 `array[2].message`，`a.b.c.d`，并且不需要在 this.data 中预先定义。
+     */
+    data: Partial<IData> & DataOption
+  ): Promise<void>;
+
   /**
    * $spliceData 同样用于将数据从逻辑层发送到视图层，但是相比于 setData，在处理长列表的时候，其具有更高的性能。
    * @param data
@@ -93,7 +103,8 @@ export declare class Base<IData extends DataOption = any> {
    */
   events?: Partial<IPageEvents>;
 
-  static render<IData = any>(componentIns: Base<IData>): void;
+  static render<IData = any>(ins: Base<IData>): void;
+  static serialize<IData = any>(ins: Base<IData>): void;
 }
 
 export type IComponentData<
@@ -142,6 +153,16 @@ export declare class MiniComponent<
     data: RecursivePartialAndDynamic<IData> & Record<string, unknown>,
     callback?: () => void
   ): void;
+
+  setDataAsync(
+    /** 这次要改变的数据
+     *
+     * 以 `key: value` 的形式表示，将 `this.data` 中的 `key` 对应的值改变成 `value`。
+     *
+     * 其中 `key` 可以以数据路径的形式给出，支持改变数组中的某一项或对象的某个属性，如 `array[2].message`，`a.b.c.d`，并且不需要在 this.data 中预先定义。
+     */
+    data: Partial<IData> & DataOption
+  ): Promise<void>;
   /**
    * 获取自定义 tabBar 实例
    * @version 2.7.20+ 可以通过判断 `this.getTabBar` 是否为函数做兼容性处理
@@ -249,6 +270,7 @@ export declare class MiniComponent<
   static Component(componentIns: MiniComponent<unknown>): void;
 
   static render<IData = any>(componentIns: MiniComponent<IData>): void;
+  static serialize<IData = any>(ins: MiniComponent<IData>): void;
 }
 
 export function method(

@@ -23,7 +23,15 @@ export default class MiniComponent<IData = unknown> {
     });
   }
 
-  static serialize<T extends MiniComponent<any>>(obj: T): any {
+  setDataAsync(data: Partial<IData>) {
+    return new Promise((resolve) => {
+      (this as any).setData(data, () => {
+        resolve(void 0);
+      });
+    });
+  }
+
+  static serialize<T extends MiniComponent<any> = MiniComponent<any>>(obj: T): any {
     const that = clone({ proto: true })(obj);
 
     const delProperties = [
