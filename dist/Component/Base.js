@@ -158,7 +158,9 @@ var MiniComponent = /** @class */ (function () {
             _that.methods = Object.create(null);
         }
         _that.methods.triggerEvent = _that.triggerEvent;
+        _that.methods.setDataAsync = _that.setDataAsync;
         delete _that.triggerEvent;
+        delete _that.setDataAsync;
         var fn = _that.deriveDataFromProps;
         var onInit = _that.onInit;
         try {

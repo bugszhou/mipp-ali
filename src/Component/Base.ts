@@ -103,7 +103,9 @@ export default class MiniComponent<IData = unknown> {
     }
 
     _that.methods.triggerEvent = _that.triggerEvent;
+    _that.methods.setDataAsync = _that.setDataAsync;
     delete _that.triggerEvent;
+    delete _that.setDataAsync;
     const fn = _that.deriveDataFromProps;
     const onInit = _that.onInit;
 
