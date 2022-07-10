@@ -59,11 +59,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.lifetimes = exports.pageLifetime = exports.method = void 0;
 var rfdc_1 = __importDefault(require("rfdc"));
+var lifetimesMappings = {
+    created: "onInit",
+    ready: "didMount",
+    detached: "didUnmount",
+    error: "onError",
+};
 var MiniComponent = /** @class */ (function () {
     function MiniComponent() {
         this.data = Object.create(null);
         this.delProperties = ["constructor"];
-        this.lifetimes = {
+        this.lifetimesMappings = {
             created: "onInit",
             ready: "didMount",
             detached: "didUnmount",
@@ -101,17 +107,30 @@ var MiniComponent = /** @class */ (function () {
             console.error(e);
         }
         var _that = that;
-        Object.keys((obj === null || obj === void 0 ? void 0 : obj.lifetimes) || {}).forEach(function (keyName) {
+        if (!(_that === null || _that === void 0 ? void 0 : _that.lifetimes)) {
+            _that.lifetimes = Object.create(null);
+        }
+        var mappings = (obj === null || obj === void 0 ? void 0 : obj.lifetimesMappings) || lifetimesMappings || {};
+        Object.keys(mappings).forEach(function (keyName) {
             var _a;
             if (_that[keyName]) {
-                _that[(_a = obj === null || obj === void 0 ? void 0 : obj.lifetimes) === null || _a === void 0 ? void 0 : _a[keyName]] = _that[keyName];
+                _that.lifetimes[mappings === null || mappings === void 0 ? void 0 : mappings[keyName]] = _that[keyName];
+            }
+            if ((_a = _that.lifetimes) === null || _a === void 0 ? void 0 : _a[keyName]) {
+                _that.lifetimes[mappings === null || mappings === void 0 ? void 0 : mappings[keyName]] =
+                    _that.lifetimes[keyName];
             }
             try {
                 delete _that[keyName];
+                delete _that.lifetimes[keyName];
             }
             catch (e) {
                 console.error(e);
             }
+        });
+        Object.keys((_that === null || _that === void 0 ? void 0 : _that.lifetimes) || {}).forEach(function (keyName) {
+            var _a;
+            _that[keyName] = (_a = _that === null || _that === void 0 ? void 0 : _that.lifetimes) === null || _a === void 0 ? void 0 : _a[keyName];
         });
         if (!(_that === null || _that === void 0 ? void 0 : _that.methods)) {
             _that.methods = Object.create(null);
@@ -125,7 +144,8 @@ var MiniComponent = /** @class */ (function () {
                 delete _that[keyName];
             });
             delete _that.delProperties;
-            delete _that.lifetimes;
+            // delete _that.lifetimes;
+            delete _that.lifetimesMappings;
         }
         catch (e) {
             console.error(e);
@@ -225,7 +245,33 @@ function pageLifetime(UIInterface, methodName, descriptor) {
     };
 }
 exports.pageLifetime = pageLifetime;
-function lifetimes() {
-    //
+function lifetimes(UIInterface, methodName, descriptor) {
+    if (!UIInterface.lifetimes) {
+        UIInterface.lifetimes = Object.create(null);
+    }
+    var base = Object.getPrototypeOf(UIInterface);
+    var fn = descriptor.value;
+    UIInterface.lifetimes[methodName] = function lifetimesFn() {
+        var opts = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            opts[_i] = arguments[_i];
+        }
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(typeof (base === null || base === void 0 ? void 0 : base.created) === "function")) return [3 /*break*/, 2];
+                        return [4 /*yield*/, base.created.apply(this, opts)];
+                    case 1:
+                        _a.sent();
+                        _a.label = 2;
+                    case 2: return [4 /*yield*/, fn.apply(this, opts)];
+                    case 3:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
 }
 exports.lifetimes = lifetimes;

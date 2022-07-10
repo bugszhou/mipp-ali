@@ -4,12 +4,19 @@ declare global {
   const Component: any;
 }
 
+const lifetimesMappings = {
+  created: "onInit",
+  ready: "didMount",
+  detached: "didUnmount",
+  error: "onError",
+};
+
 export default class MiniComponent<IData = unknown> {
   data: IData = Object.create(null);
 
   private delProperties = ["constructor"];
 
-  private lifetimes = {
+  private lifetimesMappings = {
     created: "onInit",
     ready: "didMount",
     detached: "didUnmount",
@@ -31,7 +38,9 @@ export default class MiniComponent<IData = unknown> {
     });
   }
 
-  static serialize<T extends MiniComponent<any> = MiniComponent<any>>(obj: T): any {
+  static serialize<T extends MiniComponent<any> = MiniComponent<any>>(
+    obj: T
+  ): any {
     const that = clone({ proto: true })(obj);
 
     const delProperties = [
@@ -53,15 +62,32 @@ export default class MiniComponent<IData = unknown> {
 
     const _that: any = that;
 
-    Object.keys(obj?.lifetimes || {}).forEach((keyName) => {
+    if (!_that?.lifetimes) {
+      _that.lifetimes = Object.create(null);
+    }
+
+    const mappings = obj?.lifetimesMappings || lifetimesMappings || {};
+
+    Object.keys(mappings).forEach((keyName) => {
       if (_that[keyName]) {
-        _that[obj?.lifetimes?.[keyName]] = _that[keyName];
+        _that.lifetimes[mappings?.[keyName]] = _that[keyName];
       }
+
+      if (_that.lifetimes?.[keyName]) {
+        _that.lifetimes[mappings?.[keyName]] =
+          _that.lifetimes[keyName];
+      }
+
       try {
         delete _that[keyName];
+        delete _that.lifetimes[keyName];
       } catch (e) {
         console.error(e);
       }
+    });
+
+    Object.keys(_that?.lifetimes || {}).forEach((keyName) => {
+      _that[keyName] = _that?.lifetimes?.[keyName];
     });
 
     if (!_that?.methods) {
@@ -78,7 +104,8 @@ export default class MiniComponent<IData = unknown> {
         delete _that[keyName];
       });
       delete _that.delProperties;
-      delete _that.lifetimes;
+      // delete _that.lifetimes;
+      delete _that.lifetimesMappings;
     } catch (e) {
       console.error(e);
     }
@@ -145,7 +172,7 @@ export function pageLifetime(
     if (!this?.$page?.pageHide) {
       this.$page.pageHide = [];
     }
-    
+
     if (methodName === "show") {
       this.$page.pageShow.push(descriptor.value.bind(this));
     }
@@ -163,6 +190,23 @@ export function pageLifetime(
   };
 }
 
-export function lifetimes() {
-  //
+export function lifetimes(
+  UIInterface,
+  methodName,
+  descriptor: PropertyDescriptor
+) {
+  if (!UIInterface.lifetimes) {
+    UIInterface.lifetimes = Object.create(null);
+  }
+
+  const base = Object.getPrototypeOf(UIInterface);
+
+  const fn = descriptor.value;
+
+  UIInterface.lifetimes[methodName] = async function lifetimesFn(...opts) {
+    if (typeof base?.created === "function") {
+      await base.created.apply(this, opts);
+    }
+    await fn.apply(this, opts);
+  };
 }

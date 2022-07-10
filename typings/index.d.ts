@@ -9,6 +9,7 @@ import {
   pageLifetime,
   IComponentData,
 } from "./Base/Base";
+import { ComponentBase, IAliappComponentProperties } from "./Base/MiniBase";
 
 export class PageBase<IData extends Record<string, any>> extends Base<IData> {
   constructor(options?: any);
@@ -29,4 +30,12 @@ export interface IMiniEvent<IDetail = unknown> {
   };
 }
 
-export { MiniComponent, method, lifetimes, pageLifetime, IComponentData };
+export {
+  MiniComponent,
+  method,
+  lifetimes,
+  pageLifetime,
+  IComponentData,
+  ComponentBase,
+  IAliappComponentProperties,
+};
