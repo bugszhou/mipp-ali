@@ -8,12 +8,13 @@ import Component, {
 export const PageBase = Base;
 export const MiniComponent = Component;
 export const method = componentMethod;
-export { pageLifetime, lifetimes };
+export { pageLifetime, lifetimes, MiniComponent as ComponentBase };
 
 export default {
   PageBase,
   MiniComponent,
   method,
   pageLifetime,
-  lifetimes
+  lifetimes,
+  ComponentBase: MiniComponent,
 };
