@@ -18,16 +18,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MiniPage = exports.ComponentBase = exports.lifetimes = exports.pageLifetime = exports.method = exports.MiniComponent = exports.PageBase = void 0;
-var Base_1 = __importDefault(require("../dist/Page/Base"));
+var Base_1 = __importStar(require("../dist/Page/Base"));
+Object.defineProperty(exports, "MiniPage", { enumerable: true, get: function () { return Base_1.MiniPageBase; } });
 var Base_2 = __importStar(require("../dist/Component/Base"));
 Object.defineProperty(exports, "pageLifetime", { enumerable: true, get: function () { return Base_2.pageLifetime; } });
 Object.defineProperty(exports, "lifetimes", { enumerable: true, get: function () { return Base_2.lifetimes; } });
-Object.defineProperty(exports, "MiniPage", { enumerable: true, get: function () { return Base_2.MiniPageBase; } });
 exports.PageBase = Base_1.default;
 exports.MiniComponent = Base_2.default;
 exports.ComponentBase = exports.MiniComponent;
@@ -39,5 +36,5 @@ exports.default = {
     pageLifetime: Base_2.pageLifetime,
     lifetimes: Base_2.lifetimes,
     ComponentBase: exports.MiniComponent,
-    MiniPage: Base_2.MiniPageBase,
+    MiniPage: Base_1.MiniPageBase,
 };
