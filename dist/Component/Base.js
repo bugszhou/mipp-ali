@@ -129,8 +129,30 @@ var MiniComponent = /** @class */ (function () {
             }
         });
         Object.keys((_that === null || _that === void 0 ? void 0 : _that.lifetimes) || {}).forEach(function (keyName) {
-            var _a;
-            _that[keyName] = (_a = _that === null || _that === void 0 ? void 0 : _that.lifetimes) === null || _a === void 0 ? void 0 : _a[keyName];
+            var fn = _that[keyName];
+            var lifetimesFn = _that === null || _that === void 0 ? void 0 : _that.lifetimes[keyName];
+            _that[keyName] = function newFn() {
+                var opts = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    opts[_i] = arguments[_i];
+                }
+                return __awaiter(this, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                if (!(typeof fn === "function")) return [3 /*break*/, 2];
+                                return [4 /*yield*/, fn.apply(this, opts)];
+                            case 1:
+                                _a.sent();
+                                _a.label = 2;
+                            case 2: return [4 /*yield*/, lifetimesFn.apply(this, opts)];
+                            case 3:
+                                _a.sent();
+                                return [2 /*return*/];
+                        }
+                    });
+                });
+            };
         });
         if (!(_that === null || _that === void 0 ? void 0 : _that.methods)) {
             _that.methods = Object.create(null);
@@ -144,7 +166,7 @@ var MiniComponent = /** @class */ (function () {
                 delete _that[keyName];
             });
             delete _that.delProperties;
-            // delete _that.lifetimes;
+            delete _that.lifetimes;
             delete _that.lifetimesMappings;
         }
         catch (e) {

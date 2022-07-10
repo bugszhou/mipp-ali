@@ -87,7 +87,15 @@ export default class MiniComponent<IData = unknown> {
     });
 
     Object.keys(_that?.lifetimes || {}).forEach((keyName) => {
-      _that[keyName] = _that?.lifetimes?.[keyName];
+      const fn = _that[keyName];
+      const lifetimesFn = _that?.lifetimes[keyName];
+      _that[keyName] = async function newFn(...opts) {
+        if (typeof fn === "function") {
+          await fn.apply(this, opts);
+        }
+
+        await lifetimesFn.apply(this, opts);
+      };
     });
 
     if (!_that?.methods) {
@@ -104,7 +112,7 @@ export default class MiniComponent<IData = unknown> {
         delete _that[keyName];
       });
       delete _that.delProperties;
-      // delete _that.lifetimes;
+      delete _that.lifetimes;
       delete _that.lifetimesMappings;
     } catch (e) {
       console.error(e);
