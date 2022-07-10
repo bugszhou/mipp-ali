@@ -42,7 +42,12 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MiniPageBase = void 0;
+var rfdc_1 = __importDefault(require("rfdc"));
 var Base = /** @class */ (function () {
     function Base() {
         this.data = {};
@@ -69,7 +74,7 @@ var Base = /** @class */ (function () {
     };
     Base.serialize = function (obj) {
         // const start = Date.now();
-        var that = Object.create(null);
+        var that = rfdc_1.default({ proto: true })(obj);
         var delProperties = __spreadArrays(obj.delProperties);
         var allProperties = __spreadArrays(Object.keys(obj), Object.keys(Object.getPrototypeOf(obj)));
         allProperties.forEach(function (key) {
@@ -173,3 +178,127 @@ var Base = /** @class */ (function () {
     return Base;
 }());
 exports.default = Base;
+var MiniPageBase = /** @class */ (function () {
+    function MiniPageBase() {
+        this.data = {};
+        // @ts-ignore
+        this.delProperties = ["constructor"];
+    }
+    Object.defineProperty(MiniPageBase.prototype, "componentName", {
+        /**
+         * 页面名称，注意唯一性
+         */
+        get: function () {
+            return this.constructor.name;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    MiniPageBase.prototype.setDataAsync = function (data) {
+        var _this = this;
+        return new Promise(function (resolve) {
+            _this.setData(data, function () {
+                resolve(void 0);
+            });
+        });
+    };
+    MiniPageBase.serialize = function (obj) {
+        var that = rfdc_1.default({ proto: true })(obj);
+        var delProperties = __spreadArrays(obj.delProperties);
+        var allProperties = __spreadArrays(Object.keys(obj), Object.keys(Object.getPrototypeOf(obj)));
+        allProperties.forEach(function (key) {
+            if (delProperties.includes(key)) {
+                return;
+            }
+            that[key] = obj[key];
+        });
+        var onShow = that.onShow;
+        that.onShow = function () {
+            var opts = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                opts[_i] = arguments[_i];
+            }
+            return __awaiter(this, void 0, void 0, function () {
+                var result;
+                var _this = this;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            if (!(typeof onShow === "function")) return [3 /*break*/, 2];
+                            return [4 /*yield*/, onShow.apply(this, opts)];
+                        case 1:
+                            result = _a.sent();
+                            _a.label = 2;
+                        case 2:
+                            setTimeout(function () {
+                                var _a;
+                                if (Array.isArray(_this === null || _this === void 0 ? void 0 : _this.pageShow)) {
+                                    (_a = _this === null || _this === void 0 ? void 0 : _this.pageShow) === null || _a === void 0 ? void 0 : _a.forEach(function (item) { return __awaiter(_this, void 0, void 0, function () {
+                                        return __generator(this, function (_a) {
+                                            switch (_a.label) {
+                                                case 0:
+                                                    if (!(typeof item === "function")) return [3 /*break*/, 2];
+                                                    return [4 /*yield*/, item.apply(void 0, opts)];
+                                                case 1:
+                                                    _a.sent();
+                                                    _a.label = 2;
+                                                case 2: return [2 /*return*/];
+                                            }
+                                        });
+                                    }); });
+                                }
+                            }, 0);
+                            return [2 /*return*/, result];
+                    }
+                });
+            });
+        };
+        var onHide = that.onHide;
+        that.onHide = function () {
+            var opts = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                opts[_i] = arguments[_i];
+            }
+            return __awaiter(this, void 0, void 0, function () {
+                var result;
+                var _this = this;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            if (!(typeof onHide === "function")) return [3 /*break*/, 2];
+                            return [4 /*yield*/, onHide.apply(this, opts)];
+                        case 1:
+                            result = _a.sent();
+                            _a.label = 2;
+                        case 2:
+                            setTimeout(function () {
+                                var _a;
+                                if (Array.isArray(_this === null || _this === void 0 ? void 0 : _this.pageHide)) {
+                                    (_a = _this === null || _this === void 0 ? void 0 : _this.pageHide) === null || _a === void 0 ? void 0 : _a.forEach(function (item) { return __awaiter(_this, void 0, void 0, function () {
+                                        return __generator(this, function (_a) {
+                                            switch (_a.label) {
+                                                case 0:
+                                                    if (!(typeof item === "function")) return [3 /*break*/, 2];
+                                                    return [4 /*yield*/, item.apply(void 0, opts)];
+                                                case 1:
+                                                    _a.sent();
+                                                    _a.label = 2;
+                                                case 2: return [2 /*return*/];
+                                            }
+                                        });
+                                    }); });
+                                }
+                            }, 0);
+                            return [2 /*return*/, result];
+                    }
+                });
+            });
+        };
+        return that;
+    };
+    MiniPageBase.render = function (ins) {
+        Page(MiniPageBase.serialize(ins));
+    };
+    return MiniPageBase;
+}());
+exports.MiniPageBase = MiniPageBase;

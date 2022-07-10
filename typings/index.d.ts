@@ -16,6 +16,11 @@ export class PageBase<IData extends Record<string, any>> extends Base<IData> {
   get componentName(): string;
 }
 
+export class MiniPage<IData extends Record<string, any>> extends Base<IData> {
+  constructor(options?: any);
+  get componentName(): string;
+}
+
 export interface IMiniEvent<
   IDetail = unknown,
   ICurrentTarget extends Record<string, unknown> = any,

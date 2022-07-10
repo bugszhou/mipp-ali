@@ -103,8 +103,8 @@ export declare class Base<IData extends DataOption = any> {
    */
   events?: Partial<IPageEvents>;
 
-  static render<IData = any>(ins: Base<IData>): void;
-  static serialize<IData = any>(ins: Base<IData>): void;
+  static render(ins: any): void;
+  static serialize(ins: any): void;
 }
 
 export type IComponentData<
