@@ -269,8 +269,8 @@ export declare class MiniComponent<
 
   static Component(componentIns: MiniComponent<unknown>): void;
 
-  static render<IData = any>(componentIns: MiniComponent<IData>): void;
-  static serialize<IData = any>(ins: MiniComponent<IData>): void;
+  static render(ins: any): void;
+  static serialize(ins: any): void;
 }
 
 export function method(
