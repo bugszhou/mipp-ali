@@ -77,7 +77,8 @@ var MiniComponent = /** @class */ (function () {
         };
     }
     MiniComponent.prototype.triggerEvent = function (eventName, data) {
-        this.props[eventName]({
+        var _a, _b, _c;
+        (_c = (_b = (_a = this) === null || _a === void 0 ? void 0 : _a.props) === null || _b === void 0 ? void 0 : _b[eventName]) === null || _c === void 0 ? void 0 : _c.call(_b, {
             type: eventName,
             detail: data,
         });

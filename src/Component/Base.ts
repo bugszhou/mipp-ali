@@ -24,7 +24,7 @@ export default class MiniComponent<IData = unknown> {
   };
 
   triggerEvent<IEventData = any>(eventName: string, data?: IEventData) {
-    (this as any).props[eventName]({
+    (this as any)?.props?.[eventName]?.({
       type: eventName,
       detail: data,
     });
