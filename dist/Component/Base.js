@@ -77,10 +77,21 @@ var MiniComponent = /** @class */ (function () {
         };
     }
     MiniComponent.prototype.triggerEvent = function (eventName, data) {
-        var _a, _b, _c;
-        (_c = (_b = (_a = this) === null || _a === void 0 ? void 0 : _a.props) === null || _b === void 0 ? void 0 : _b[eventName]) === null || _c === void 0 ? void 0 : _c.call(_b, {
+        var _a, _b, _c, _d;
+        var props = (_a = this) === null || _a === void 0 ? void 0 : _a.props;
+        var dataset = Object.keys(props || {})
+            .filter(function (property) { return property.startsWith("data-"); })
+            .map(function (property) { return property.replace(/^data\-/, ""); })
+            .reduce(function (prev, current) {
+            prev[current] = props["data-" + current];
+            return prev;
+        }, {});
+        (_d = (_c = (_b = this) === null || _b === void 0 ? void 0 : _b.props) === null || _c === void 0 ? void 0 : _c[eventName]) === null || _d === void 0 ? void 0 : _d.call(_c, {
             type: eventName,
             detail: data,
+            currentTarget: {
+                dataset: dataset || {},
+            },
         });
     };
     MiniComponent.prototype.setDataAsync = function (data) {
@@ -118,8 +129,7 @@ var MiniComponent = /** @class */ (function () {
                 _that.lifetimes[mappings === null || mappings === void 0 ? void 0 : mappings[keyName]] = _that[keyName];
             }
             if ((_a = _that.lifetimes) === null || _a === void 0 ? void 0 : _a[keyName]) {
-                _that.lifetimes[mappings === null || mappings === void 0 ? void 0 : mappings[keyName]] =
-                    _that.lifetimes[keyName];
+                _that.lifetimes[mappings === null || mappings === void 0 ? void 0 : mappings[keyName]] = _that.lifetimes[keyName];
             }
             try {
                 delete _that[keyName];

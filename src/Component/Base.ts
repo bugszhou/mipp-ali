@@ -24,9 +24,21 @@ export default class MiniComponent<IData = unknown> {
   };
 
   triggerEvent<IEventData = any>(eventName: string, data?: IEventData) {
+    const props = (this as any)?.props;
+    const dataset = Object.keys(props || {})
+      .filter((property) => property.startsWith("data-"))
+      .map((property) => property.replace(/^data\-/, ""))
+      .reduce((prev, current) => {
+        prev[current] = props[`data-${current}`];
+        return prev;
+      }, {});
+
     (this as any)?.props?.[eventName]?.({
       type: eventName,
       detail: data,
+      currentTarget: {
+        dataset: dataset || {},
+      },
     });
   }
 
@@ -74,8 +86,7 @@ export default class MiniComponent<IData = unknown> {
       }
 
       if (_that.lifetimes?.[keyName]) {
-        _that.lifetimes[mappings?.[keyName]] =
-          _that.lifetimes[keyName];
+        _that.lifetimes[mappings?.[keyName]] = _that.lifetimes[keyName];
       }
 
       try {
