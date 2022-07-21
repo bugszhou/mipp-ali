@@ -142,10 +142,9 @@ export default class MiniComponent<IData = unknown> {
       }
     };
     _that.deriveDataFromProps = async function (nextProps) {
-      this.data = {
-        ...(this.data || {}),
+      this.setData({
         ...(nextProps || {}),
-      };
+      });
 
       if (typeof fn === "function") {
         await fn.apply(this, [nextProps]);
