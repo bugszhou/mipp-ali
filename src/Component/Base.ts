@@ -168,7 +168,7 @@ export function method(
   methodName,
   descriptor: PropertyDescriptor
 ) {
-  if (!UIInterface.methods) {
+  if (!UIInterface.hasOwnProperty("methods")) {
     UIInterface.methods = Object.create(null);
   }
   UIInterface.methods[methodName] = descriptor.value;
@@ -205,9 +205,7 @@ export function pageLifetime(
       return;
     }
 
-    const result = await onInit.apply(this, opts);
-
-    return result;
+    return onInit.apply(this, opts);
   };
 }
 
@@ -216,7 +214,7 @@ export function lifetimes(
   methodName,
   descriptor: PropertyDescriptor
 ) {
-  if (!UIInterface.lifetimes) {
+  if (!UIInterface.hasOwnProperty("lifetimes")) {
     UIInterface.lifetimes = Object.create(null);
   }
 
@@ -230,4 +228,16 @@ export function lifetimes(
     }
     await fn.apply(this, opts);
   };
+}
+
+export function lifetime(
+  UIInterface,
+  methodName,
+  descriptor: PropertyDescriptor
+) {
+  if (!UIInterface.hasOwnProperty("lifetimes")) {
+    UIInterface.lifetimes = Object.create(null);
+  }
+
+  UIInterface.lifetimes[methodName] = descriptor.value;
 }

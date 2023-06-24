@@ -57,7 +57,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.lifetimes = exports.pageLifetime = exports.method = void 0;
+exports.lifetime = exports.lifetimes = exports.pageLifetime = exports.method = void 0;
 var rfdc_1 = __importDefault(require("rfdc"));
 var lifetimesMappings = {
     created: "onInit",
@@ -233,7 +233,7 @@ var MiniComponent = /** @class */ (function () {
 }());
 exports.default = MiniComponent;
 function method(UIInterface, methodName, descriptor) {
-    if (!UIInterface.methods) {
+    if (!UIInterface.hasOwnProperty("methods")) {
         UIInterface.methods = Object.create(null);
     }
     UIInterface.methods[methodName] = descriptor.value;
@@ -248,40 +248,33 @@ function pageLifetime(UIInterface, methodName, descriptor) {
             opts[_i] = arguments[_i];
         }
         return __awaiter(this, void 0, void 0, function () {
-            var result;
             return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        if (!(this === null || this === void 0 ? void 0 : this.$page)) {
-                            this.$page = Object.create(null);
-                        }
-                        if (!((_a = this === null || this === void 0 ? void 0 : this.$page) === null || _a === void 0 ? void 0 : _a.pageShow)) {
-                            this.$page.pageShow = [];
-                        }
-                        if (!((_b = this === null || this === void 0 ? void 0 : this.$page) === null || _b === void 0 ? void 0 : _b.pageHide)) {
-                            this.$page.pageHide = [];
-                        }
-                        if (methodName === "show") {
-                            this.$page.pageShow.push(descriptor.value.bind(this));
-                        }
-                        if (methodName === "hide") {
-                            this.$page.pageHide.push(descriptor.value.bind(this));
-                        }
-                        if (typeof onInit !== "function") {
-                            return [2 /*return*/];
-                        }
-                        return [4 /*yield*/, onInit.apply(this, opts)];
-                    case 1:
-                        result = _c.sent();
-                        return [2 /*return*/, result];
+                if (!(this === null || this === void 0 ? void 0 : this.$page)) {
+                    this.$page = Object.create(null);
                 }
+                if (!((_a = this === null || this === void 0 ? void 0 : this.$page) === null || _a === void 0 ? void 0 : _a.pageShow)) {
+                    this.$page.pageShow = [];
+                }
+                if (!((_b = this === null || this === void 0 ? void 0 : this.$page) === null || _b === void 0 ? void 0 : _b.pageHide)) {
+                    this.$page.pageHide = [];
+                }
+                if (methodName === "show") {
+                    this.$page.pageShow.push(descriptor.value.bind(this));
+                }
+                if (methodName === "hide") {
+                    this.$page.pageHide.push(descriptor.value.bind(this));
+                }
+                if (typeof onInit !== "function") {
+                    return [2 /*return*/];
+                }
+                return [2 /*return*/, onInit.apply(this, opts)];
             });
         });
     };
 }
 exports.pageLifetime = pageLifetime;
 function lifetimes(UIInterface, methodName, descriptor) {
-    if (!UIInterface.lifetimes) {
+    if (!UIInterface.hasOwnProperty("lifetimes")) {
         UIInterface.lifetimes = Object.create(null);
     }
     var base = Object.getPrototypeOf(UIInterface);
@@ -310,3 +303,10 @@ function lifetimes(UIInterface, methodName, descriptor) {
     };
 }
 exports.lifetimes = lifetimes;
+function lifetime(UIInterface, methodName, descriptor) {
+    if (!UIInterface.hasOwnProperty("lifetimes")) {
+        UIInterface.lifetimes = Object.create(null);
+    }
+    UIInterface.lifetimes[methodName] = descriptor.value;
+}
+exports.lifetime = lifetime;
