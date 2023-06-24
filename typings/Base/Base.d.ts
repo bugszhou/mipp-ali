@@ -290,3 +290,9 @@ export function lifetimes(
   methodName: string,
   descriptor: PropertyDescriptor
 ): void;
+
+export function lifetime(
+  UIInterface: any,
+  methodName: string,
+  descriptor: PropertyDescriptor
+): void;

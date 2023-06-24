@@ -6,6 +6,7 @@ import {
   MiniComponent,
   method,
   lifetimes,
+  lifetime,
   pageLifetime,
   IComponentData,
 } from "./Base/Base";
@@ -43,6 +44,7 @@ export {
   MiniComponent,
   method,
   lifetimes,
+  lifetime,
   pageLifetime,
   IComponentData,
   ComponentBase,
