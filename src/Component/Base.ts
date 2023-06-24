@@ -1,3 +1,4 @@
+import rfdc from "rfdc";
 import clone from "rfdc";
 
 declare global {
@@ -22,6 +23,10 @@ export default class MiniComponent<IData = unknown> {
     detached: "didUnmount",
     error: "onError",
   };
+
+  onInit() {
+    // empty
+  }
 
   triggerEvent<IEventData = any>(eventName: string, data?: IEventData) {
     const props = (this as any)?.props;
@@ -168,9 +173,15 @@ export function method(
   methodName,
   descriptor: PropertyDescriptor
 ) {
+  const methods = rfdc()(UIInterface?.methods ?? Object.create(null));
+  delete UIInterface?.__proto__?.methods;
   if (!UIInterface.hasOwnProperty("methods")) {
     UIInterface.methods = Object.create(null);
   }
+  UIInterface.methods = {
+    ...UIInterface.methods,
+    ...(methods ?? Object.create(null)),
+  };
   UIInterface.methods[methodName] = descriptor.value;
 }
 
@@ -181,7 +192,7 @@ export function pageLifetime(
 ) {
   const onInit = UIInterface.onInit;
 
-  UIInterface.onInit = async function (...opts) {
+  UIInterface.onInit = function (...opts) {
     if (!this?.$page) {
       this.$page = Object.create(null);
     }
@@ -214,9 +225,15 @@ export function lifetimes(
   methodName,
   descriptor: PropertyDescriptor
 ) {
+  const lifetimes = rfdc()(UIInterface?.lifetimes ?? Object.create(null));
+  delete UIInterface?.__proto__?.lifetimes;
   if (!UIInterface.hasOwnProperty("lifetimes")) {
     UIInterface.lifetimes = Object.create(null);
   }
+  UIInterface.lifetimes = {
+    ...UIInterface.lifetimes,
+    ...(lifetimes ?? Object.create(null)),
+  };
 
   const base = Object.getPrototypeOf(UIInterface);
 
@@ -235,9 +252,14 @@ export function lifetime(
   methodName,
   descriptor: PropertyDescriptor
 ) {
+  const lifetimes = rfdc()(UIInterface?.lifetimes ?? Object.create(null));
+  delete UIInterface?.__proto__?.lifetimes;
   if (!UIInterface.hasOwnProperty("lifetimes")) {
     UIInterface.lifetimes = Object.create(null);
   }
-
+  UIInterface.lifetimes = {
+    ...UIInterface.lifetimes,
+    ...(lifetimes ?? Object.create(null)),
+  };
   UIInterface.lifetimes[methodName] = descriptor.value;
 }

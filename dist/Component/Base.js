@@ -59,6 +59,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.lifetime = exports.lifetimes = exports.pageLifetime = exports.method = void 0;
 var rfdc_1 = __importDefault(require("rfdc"));
+var rfdc_2 = __importDefault(require("rfdc"));
 var lifetimesMappings = {
     created: "onInit",
     ready: "didMount",
@@ -76,6 +77,9 @@ var MiniComponent = /** @class */ (function () {
             error: "onError",
         };
     }
+    MiniComponent.prototype.onInit = function () {
+        // empty
+    };
     MiniComponent.prototype.triggerEvent = function (eventName, data) {
         var _a, _b, _c, _d;
         var props = (_a = this) === null || _a === void 0 ? void 0 : _a.props;
@@ -104,7 +108,7 @@ var MiniComponent = /** @class */ (function () {
     };
     MiniComponent.serialize = function (obj) {
         var _a, _b, _c;
-        var that = rfdc_1.default({ proto: true })(obj);
+        var that = rfdc_2.default({ proto: true })(obj);
         var delProperties = __spreadArrays((Array.isArray(obj.delProperties) ? obj.delProperties : []));
         delProperties.forEach(function (item) {
             delete that[item];
@@ -233,9 +237,13 @@ var MiniComponent = /** @class */ (function () {
 }());
 exports.default = MiniComponent;
 function method(UIInterface, methodName, descriptor) {
+    var _a, _b;
+    var methods = rfdc_1.default()((_a = UIInterface === null || UIInterface === void 0 ? void 0 : UIInterface.methods) !== null && _a !== void 0 ? _a : Object.create(null));
+    (_b = UIInterface === null || UIInterface === void 0 ? void 0 : UIInterface.__proto__) === null || _b === void 0 ? true : delete _b.methods;
     if (!UIInterface.hasOwnProperty("methods")) {
         UIInterface.methods = Object.create(null);
     }
+    UIInterface.methods = __assign(__assign({}, UIInterface.methods), (methods !== null && methods !== void 0 ? methods : Object.create(null)));
     UIInterface.methods[methodName] = descriptor.value;
 }
 exports.method = method;
@@ -247,36 +255,36 @@ function pageLifetime(UIInterface, methodName, descriptor) {
         for (var _i = 0; _i < arguments.length; _i++) {
             opts[_i] = arguments[_i];
         }
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_c) {
-                if (!(this === null || this === void 0 ? void 0 : this.$page)) {
-                    this.$page = Object.create(null);
-                }
-                if (!((_a = this === null || this === void 0 ? void 0 : this.$page) === null || _a === void 0 ? void 0 : _a.pageShow)) {
-                    this.$page.pageShow = [];
-                }
-                if (!((_b = this === null || this === void 0 ? void 0 : this.$page) === null || _b === void 0 ? void 0 : _b.pageHide)) {
-                    this.$page.pageHide = [];
-                }
-                if (methodName === "show") {
-                    this.$page.pageShow.push(descriptor.value.bind(this));
-                }
-                if (methodName === "hide") {
-                    this.$page.pageHide.push(descriptor.value.bind(this));
-                }
-                if (typeof onInit !== "function") {
-                    return [2 /*return*/];
-                }
-                return [2 /*return*/, onInit.apply(this, opts)];
-            });
-        });
+        if (!(this === null || this === void 0 ? void 0 : this.$page)) {
+            this.$page = Object.create(null);
+        }
+        if (!((_a = this === null || this === void 0 ? void 0 : this.$page) === null || _a === void 0 ? void 0 : _a.pageShow)) {
+            this.$page.pageShow = [];
+        }
+        if (!((_b = this === null || this === void 0 ? void 0 : this.$page) === null || _b === void 0 ? void 0 : _b.pageHide)) {
+            this.$page.pageHide = [];
+        }
+        if (methodName === "show") {
+            this.$page.pageShow.push(descriptor.value.bind(this));
+        }
+        if (methodName === "hide") {
+            this.$page.pageHide.push(descriptor.value.bind(this));
+        }
+        if (typeof onInit !== "function") {
+            return;
+        }
+        return onInit.apply(this, opts);
     };
 }
 exports.pageLifetime = pageLifetime;
 function lifetimes(UIInterface, methodName, descriptor) {
+    var _a, _b;
+    var lifetimes = rfdc_1.default()((_a = UIInterface === null || UIInterface === void 0 ? void 0 : UIInterface.lifetimes) !== null && _a !== void 0 ? _a : Object.create(null));
+    (_b = UIInterface === null || UIInterface === void 0 ? void 0 : UIInterface.__proto__) === null || _b === void 0 ? true : delete _b.lifetimes;
     if (!UIInterface.hasOwnProperty("lifetimes")) {
         UIInterface.lifetimes = Object.create(null);
     }
+    UIInterface.lifetimes = __assign(__assign({}, UIInterface.lifetimes), (lifetimes !== null && lifetimes !== void 0 ? lifetimes : Object.create(null)));
     var base = Object.getPrototypeOf(UIInterface);
     var fn = descriptor.value;
     UIInterface.lifetimes[methodName] = function lifetimesFn() {
@@ -304,9 +312,13 @@ function lifetimes(UIInterface, methodName, descriptor) {
 }
 exports.lifetimes = lifetimes;
 function lifetime(UIInterface, methodName, descriptor) {
+    var _a, _b;
+    var lifetimes = rfdc_1.default()((_a = UIInterface === null || UIInterface === void 0 ? void 0 : UIInterface.lifetimes) !== null && _a !== void 0 ? _a : Object.create(null));
+    (_b = UIInterface === null || UIInterface === void 0 ? void 0 : UIInterface.__proto__) === null || _b === void 0 ? true : delete _b.lifetimes;
     if (!UIInterface.hasOwnProperty("lifetimes")) {
         UIInterface.lifetimes = Object.create(null);
     }
+    UIInterface.lifetimes = __assign(__assign({}, UIInterface.lifetimes), (lifetimes !== null && lifetimes !== void 0 ? lifetimes : Object.create(null)));
     UIInterface.lifetimes[methodName] = descriptor.value;
 }
 exports.lifetime = lifetime;
