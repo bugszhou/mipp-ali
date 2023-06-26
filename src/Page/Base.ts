@@ -176,6 +176,24 @@ export class MiniPageBase<IData> {
       return result;
     };
 
+    const createdFn = that?.onLoad;
+    that.onLoad = function created(...opts: any) {
+      try {
+        this.viewStatus = "load";
+      } catch {}
+      return createdFn?.apply?.(this, opts);
+    };
+
+    const readyFn = that?.onReady;
+    that.onReady = function ready(...opts: any) {
+      try {
+        if (this.viewStatus !== "ready") {
+          this.viewStatus = "ready";
+        }
+      } catch {}
+      return readyFn?.apply?.(this, opts);
+    };
+
     return that;
   }
 

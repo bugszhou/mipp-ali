@@ -294,6 +294,34 @@ var MiniPageBase = /** @class */ (function () {
                 });
             });
         };
+        var createdFn = that === null || that === void 0 ? void 0 : that.onLoad;
+        that.onLoad = function created() {
+            var _a;
+            var opts = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                opts[_i] = arguments[_i];
+            }
+            try {
+                this.viewStatus = "load";
+            }
+            catch (_b) { }
+            return (_a = createdFn === null || createdFn === void 0 ? void 0 : createdFn.apply) === null || _a === void 0 ? void 0 : _a.call(createdFn, this, opts);
+        };
+        var readyFn = that === null || that === void 0 ? void 0 : that.onReady;
+        that.onReady = function ready() {
+            var _a;
+            var opts = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                opts[_i] = arguments[_i];
+            }
+            try {
+                if (this.viewStatus !== "ready") {
+                    this.viewStatus = "ready";
+                }
+            }
+            catch (_b) { }
+            return (_a = readyFn === null || readyFn === void 0 ? void 0 : readyFn.apply) === null || _a === void 0 ? void 0 : _a.call(readyFn, this, opts);
+        };
         return that;
     };
     MiniPageBase.render = function (ins) {
