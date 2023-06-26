@@ -15,6 +15,8 @@ const lifetimesMappings = {
 export default class MiniComponent<IData = unknown> {
   data: IData = Object.create(null);
 
+  viewStatus: "load" | "ready" = "load";
+
   private delProperties = ["constructor"];
 
   private lifetimesMappings = {
@@ -82,6 +84,24 @@ export default class MiniComponent<IData = unknown> {
     if (!_that?.lifetimes) {
       _that.lifetimes = Object.create(null);
     }
+
+    const createdFn = _that?.lifetimes?.created;
+    _that.lifetimes.created = function created(...opts: any) {
+      try {
+        this.viewStatus = "load";
+      } catch {}
+      return createdFn?.apply?.(this, opts);
+    };
+
+    const readyFn = _that?.lifetimes?.ready;
+    _that.lifetimes.ready = function ready(...opts: any) {
+      try {
+        if (this.viewStatus !== "ready") {
+          this.viewStatus = "ready";
+        }
+      } catch {}
+      return readyFn?.apply?.(this, opts);
+    };
 
     const mappings = obj?.lifetimesMappings || lifetimesMappings || {};
 
@@ -174,7 +194,7 @@ export function method(
   descriptor: PropertyDescriptor
 ) {
   const methods = rfdc()(UIInterface?.methods ?? Object.create(null));
-  delete UIInterface?.__proto__?.methods;
+
   if (!UIInterface.hasOwnProperty("methods")) {
     UIInterface.methods = Object.create(null);
   }
@@ -226,7 +246,7 @@ export function lifetimes(
   descriptor: PropertyDescriptor
 ) {
   const lifetimes = rfdc()(UIInterface?.lifetimes ?? Object.create(null));
-  delete UIInterface?.__proto__?.lifetimes;
+
   if (!UIInterface.hasOwnProperty("lifetimes")) {
     UIInterface.lifetimes = Object.create(null);
   }
@@ -253,7 +273,7 @@ export function lifetime(
   descriptor: PropertyDescriptor
 ) {
   const lifetimes = rfdc()(UIInterface?.lifetimes ?? Object.create(null));
-  delete UIInterface?.__proto__?.lifetimes;
+
   if (!UIInterface.hasOwnProperty("lifetimes")) {
     UIInterface.lifetimes = Object.create(null);
   }
