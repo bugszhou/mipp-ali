@@ -127,7 +127,7 @@ var MiniComponent = /** @class */ (function () {
         if (!(_that === null || _that === void 0 ? void 0 : _that.lifetimes)) {
             _that.lifetimes = Object.create(null);
         }
-        var createdFn = (_d = _that === null || _that === void 0 ? void 0 : _that.lifetimes) === null || _d === void 0 ? void 0 : _d.created;
+        var createdFn = ((_d = _that === null || _that === void 0 ? void 0 : _that.lifetimes) === null || _d === void 0 ? void 0 : _d.created) || (_that === null || _that === void 0 ? void 0 : _that.created);
         _that.lifetimes.created = function created() {
             var _a;
             var opts = [];
@@ -140,7 +140,7 @@ var MiniComponent = /** @class */ (function () {
             catch (_b) { }
             return (_a = createdFn === null || createdFn === void 0 ? void 0 : createdFn.apply) === null || _a === void 0 ? void 0 : _a.call(createdFn, this, opts);
         };
-        var readyFn = (_e = _that === null || _that === void 0 ? void 0 : _that.lifetimes) === null || _e === void 0 ? void 0 : _e.ready;
+        var readyFn = ((_e = _that === null || _that === void 0 ? void 0 : _that.lifetimes) === null || _e === void 0 ? void 0 : _e.ready) || (_that === null || _that === void 0 ? void 0 : _that.ready);
         _that.lifetimes.ready = function ready() {
             var _a;
             var opts = [];

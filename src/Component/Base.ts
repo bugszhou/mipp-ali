@@ -85,7 +85,7 @@ export default class MiniComponent<IData = unknown> {
       _that.lifetimes = Object.create(null);
     }
 
-    const createdFn = _that?.lifetimes?.created;
+    const createdFn = _that?.lifetimes?.created || _that?.created;
     _that.lifetimes.created = function created(...opts: any) {
       try {
         this.viewStatus = "load";
@@ -93,7 +93,7 @@ export default class MiniComponent<IData = unknown> {
       return createdFn?.apply?.(this, opts);
     };
 
-    const readyFn = _that?.lifetimes?.ready;
+    const readyFn = _that?.lifetimes?.ready || _that?.ready;
     _that.lifetimes.ready = function ready(...opts: any) {
       try {
         if (this.viewStatus !== "ready") {
