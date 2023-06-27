@@ -235,7 +235,7 @@ var MiniComponent = /** @class */ (function () {
                     return pre;
                 }
                 pre[key] = nextProps === null || nextProps === void 0 ? void 0 : nextProps[key];
-                return;
+                return pre;
             }, Object.create(null));
             this.setData(__assign({}, (propsData || {})));
             if (typeof fn === "function") {

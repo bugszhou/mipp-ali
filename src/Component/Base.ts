@@ -173,7 +173,7 @@ export default class MiniComponent<IData = unknown> {
         }
 
         pre[key] = nextProps?.[key];
-        return;
+        return pre;
       }, Object.create(null));
 
       this.setData({
