@@ -223,36 +223,24 @@ var MiniComponent = /** @class */ (function () {
             for (var _i = 0; _i < arguments.length; _i++) {
                 opts[_i] = arguments[_i];
             }
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            this.data = __assign(__assign({}, (this.data || {})), (this.props || {}));
-                            if (!(typeof onInit === "function")) return [3 /*break*/, 2];
-                            return [4 /*yield*/, onInit.apply(this, opts)];
-                        case 1:
-                            _a.sent();
-                            _a.label = 2;
-                        case 2: return [2 /*return*/];
-                    }
-                });
-            });
+            this.data = __assign(__assign({}, (this.data || {})), (this.props || {}));
+            if (typeof onInit === "function") {
+                onInit.apply(this, opts);
+            }
         };
         _that.deriveDataFromProps = function (nextProps) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            this.setData(__assign({}, (nextProps || {})));
-                            if (!(typeof fn === "function")) return [3 /*break*/, 2];
-                            return [4 /*yield*/, fn.apply(this, [nextProps])];
-                        case 1:
-                            _a.sent();
-                            _a.label = 2;
-                        case 2: return [2 /*return*/];
-                    }
-                });
-            });
+            var _a, _b;
+            var propsData = (_b = (_a = Object.keys(nextProps || {})) === null || _a === void 0 ? void 0 : _a.reduce) === null || _b === void 0 ? void 0 : _b.call(_a, function (pre, key) {
+                if (typeof (nextProps === null || nextProps === void 0 ? void 0 : nextProps[key]) === "function") {
+                    return pre;
+                }
+                pre[key] = nextProps === null || nextProps === void 0 ? void 0 : nextProps[key];
+                return;
+            }, Object.create(null));
+            this.setData(__assign({}, (propsData || {})));
+            if (typeof fn === "function") {
+                fn.apply(this, [propsData]);
+            }
         };
         return that;
     };

@@ -156,23 +156,32 @@ export default class MiniComponent<IData = unknown> {
       console.error(e);
     }
 
-    _that.onInit = async function (...opts) {
+    _that.onInit = function (...opts) {
       this.data = {
         ...(this.data || {}),
         ...(this.props || {}),
       };
 
       if (typeof onInit === "function") {
-        await onInit.apply(this, opts);
+        onInit.apply(this, opts);
       }
     };
-    _that.deriveDataFromProps = async function (nextProps) {
+    _that.deriveDataFromProps = function (nextProps) {
+      const propsData = Object.keys(nextProps || {})?.reduce?.((pre, key) => {
+        if (typeof nextProps?.[key] === "function") {
+          return pre;
+        }
+
+        pre[key] = nextProps?.[key];
+        return;
+      }, Object.create(null));
+
       this.setData({
-        ...(nextProps || {}),
+        ...(propsData || {}),
       });
 
       if (typeof fn === "function") {
-        await fn.apply(this, [nextProps]);
+        fn.apply(this, [propsData]);
       }
     };
 
