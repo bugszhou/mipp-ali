@@ -57,7 +57,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.lifetime = exports.lifetimes = exports.pageLifetime = exports.method = void 0;
+exports.extendLifetime = exports.lifetime = exports.lifetimes = exports.pageLifetime = exports.method = void 0;
 var rfdc_1 = __importDefault(require("rfdc"));
 var rfdc_2 = __importDefault(require("rfdc"));
 var lifetimesMappings = {
@@ -176,13 +176,14 @@ var MiniComponent = /** @class */ (function () {
             var fn = _that[keyName];
             var lifetimesFn = _that === null || _that === void 0 ? void 0 : _that.lifetimes[keyName];
             _that[keyName] = function newFn() {
+                var _a, _b;
                 var opts = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
                     opts[_i] = arguments[_i];
                 }
                 var result = null;
                 if (typeof fn === "function") {
-                    result = fn.apply(this, opts);
+                    result = (_a = fn === null || fn === void 0 ? void 0 : fn.apply) === null || _a === void 0 ? void 0 : _a.call(fn, this, opts);
                 }
                 if (typeof result === "object" && typeof (result === null || result === void 0 ? void 0 : result.then) === "function") {
                     var that_1 = this;
@@ -195,15 +196,13 @@ var MiniComponent = /** @class */ (function () {
                                     case 1:
                                         _b.sent();
                                         return [4 /*yield*/, ((_a = lifetimesFn === null || lifetimesFn === void 0 ? void 0 : lifetimesFn.apply) === null || _a === void 0 ? void 0 : _a.call(lifetimesFn, that_1, opts))];
-                                    case 2:
-                                        _b.sent();
-                                        return [2 /*return*/];
+                                    case 2: return [2 /*return*/, _b.sent()];
                                 }
                             });
                         });
                     })();
                 }
-                return lifetimesFn.apply(this, opts);
+                return (_b = lifetimesFn === null || lifetimesFn === void 0 ? void 0 : lifetimesFn.apply) === null || _b === void 0 ? void 0 : _b.call(lifetimesFn, this, opts);
             };
         });
         if (!(_that === null || _that === void 0 ? void 0 : _that.methods)) {
@@ -344,3 +343,40 @@ function lifetime(UIInterface, methodName, descriptor) {
     UIInterface.lifetimes[methodName] = descriptor.value;
 }
 exports.lifetime = lifetime;
+function extendLifetime(UIInterface, methodName, descriptor) {
+    var _a;
+    var lifetimes = rfdc_1.default()((_a = UIInterface === null || UIInterface === void 0 ? void 0 : UIInterface.lifetimes) !== null && _a !== void 0 ? _a : Object.create(null));
+    if (!UIInterface.hasOwnProperty("lifetimes")) {
+        UIInterface.lifetimes = Object.create(null);
+    }
+    UIInterface.lifetimes = __assign(__assign({}, UIInterface.lifetimes), (lifetimes !== null && lifetimes !== void 0 ? lifetimes : Object.create(null)));
+    var beforeFn = UIInterface.lifetimes[methodName];
+    var fn = descriptor.value;
+    UIInterface.lifetimes[methodName] = function newLifetime() {
+        var _a, _b;
+        var opts = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            opts[_i] = arguments[_i];
+        }
+        var result = (_a = beforeFn === null || beforeFn === void 0 ? void 0 : beforeFn.apply) === null || _a === void 0 ? void 0 : _a.call(beforeFn, this, opts);
+        if (typeof result === "object" && typeof (result === null || result === void 0 ? void 0 : result.then) === "function") {
+            var that_2 = this;
+            return (function runLifetimes() {
+                var _a;
+                return __awaiter(this, void 0, void 0, function () {
+                    return __generator(this, function (_b) {
+                        switch (_b.label) {
+                            case 0: return [4 /*yield*/, result];
+                            case 1:
+                                _b.sent();
+                                return [4 /*yield*/, ((_a = fn === null || fn === void 0 ? void 0 : fn.apply) === null || _a === void 0 ? void 0 : _a.call(fn, that_2, opts))];
+                            case 2: return [2 /*return*/, _b.sent()];
+                        }
+                    });
+                });
+            })();
+        }
+        return (_b = fn === null || fn === void 0 ? void 0 : fn.apply) === null || _b === void 0 ? void 0 : _b.call(fn, this, opts);
+    };
+}
+exports.extendLifetime = extendLifetime;

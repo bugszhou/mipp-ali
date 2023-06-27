@@ -7,6 +7,7 @@ import {
   method,
   lifetimes,
   lifetime,
+  extendLifetime,
   pageLifetime,
   IComponentData,
 } from "./Base/Base";
@@ -45,6 +46,7 @@ export {
   method,
   lifetimes,
   lifetime,
+  extendLifetime,
   pageLifetime,
   IComponentData,
   ComponentBase,

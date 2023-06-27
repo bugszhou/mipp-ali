@@ -4,6 +4,7 @@ import Component, {
   pageLifetime,
   lifetimes,
   lifetime,
+  extendLifetime,
 } from "../dist/Component/Base";
 
 export const PageBase = Base;
@@ -13,6 +14,7 @@ export {
   pageLifetime,
   lifetimes,
   lifetime,
+  extendLifetime,
   MiniComponent as ComponentBase,
   MiniPageBase as MiniPage,
 };
@@ -24,6 +26,7 @@ export default {
   pageLifetime,
   lifetimes,
   lifetime,
+  extendLifetime,
   ComponentBase: MiniComponent,
   MiniPage: MiniPageBase,
 };

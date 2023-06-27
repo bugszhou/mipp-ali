@@ -128,18 +128,18 @@ export default class MiniComponent<IData = unknown> {
       _that[keyName] = function newFn(...opts) {
         let result: any = null;
         if (typeof fn === "function") {
-          result = fn.apply(this, opts);
+          result = fn?.apply?.(this, opts);
         }
 
         if (typeof result === "object" && typeof result?.then === "function") {
           const that = this;
           return (async function runLifetimes() {
             await result;
-            await lifetimesFn?.apply?.(that, opts);
+            return await lifetimesFn?.apply?.(that, opts);
           })();
         }
 
-        return lifetimesFn.apply(this, opts);
+        return lifetimesFn?.apply?.(this, opts);
       };
     });
 
@@ -300,4 +300,36 @@ export function lifetime(
     ...(lifetimes ?? Object.create(null)),
   };
   UIInterface.lifetimes[methodName] = descriptor.value;
+}
+
+export function extendLifetime(
+  UIInterface,
+  methodName,
+  descriptor: PropertyDescriptor
+) {
+  const lifetimes = rfdc()(UIInterface?.lifetimes ?? Object.create(null));
+
+  if (!UIInterface.hasOwnProperty("lifetimes")) {
+    UIInterface.lifetimes = Object.create(null);
+  }
+  UIInterface.lifetimes = {
+    ...UIInterface.lifetimes,
+    ...(lifetimes ?? Object.create(null)),
+  };
+  const beforeFn = UIInterface.lifetimes[methodName];
+  const fn = descriptor.value;
+
+  UIInterface.lifetimes[methodName] = function newLifetime(...opts) {
+    const result = beforeFn?.apply?.(this, opts);
+
+    if (typeof result === "object" && typeof result?.then === "function") {
+      const that = this;
+      return (async function runLifetimes() {
+        await result;
+        return await fn?.apply?.(that, opts);
+      })();
+    }
+
+    return fn?.apply?.(this, opts);
+  };
 }

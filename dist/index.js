@@ -19,13 +19,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MiniPage = exports.ComponentBase = exports.lifetime = exports.lifetimes = exports.pageLifetime = exports.method = exports.MiniComponent = exports.PageBase = void 0;
+exports.MiniPage = exports.ComponentBase = exports.extendLifetime = exports.lifetime = exports.lifetimes = exports.pageLifetime = exports.method = exports.MiniComponent = exports.PageBase = void 0;
 var Base_1 = __importStar(require("../dist/Page/Base"));
 Object.defineProperty(exports, "MiniPage", { enumerable: true, get: function () { return Base_1.MiniPageBase; } });
 var Base_2 = __importStar(require("../dist/Component/Base"));
 Object.defineProperty(exports, "pageLifetime", { enumerable: true, get: function () { return Base_2.pageLifetime; } });
 Object.defineProperty(exports, "lifetimes", { enumerable: true, get: function () { return Base_2.lifetimes; } });
 Object.defineProperty(exports, "lifetime", { enumerable: true, get: function () { return Base_2.lifetime; } });
+Object.defineProperty(exports, "extendLifetime", { enumerable: true, get: function () { return Base_2.extendLifetime; } });
 exports.PageBase = Base_1.default;
 exports.MiniComponent = Base_2.default;
 exports.ComponentBase = exports.MiniComponent;
@@ -37,6 +38,7 @@ exports.default = {
     pageLifetime: Base_2.pageLifetime,
     lifetimes: Base_2.lifetimes,
     lifetime: Base_2.lifetime,
+    extendLifetime: Base_2.extendLifetime,
     ComponentBase: exports.MiniComponent,
     MiniPage: Base_1.MiniPageBase,
 };
