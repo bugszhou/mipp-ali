@@ -180,22 +180,30 @@ var MiniComponent = /** @class */ (function () {
                 for (var _i = 0; _i < arguments.length; _i++) {
                     opts[_i] = arguments[_i];
                 }
-                return __awaiter(this, void 0, void 0, function () {
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0:
-                                if (!(typeof fn === "function")) return [3 /*break*/, 2];
-                                return [4 /*yield*/, fn.apply(this, opts)];
-                            case 1:
-                                _a.sent();
-                                _a.label = 2;
-                            case 2: return [4 /*yield*/, lifetimesFn.apply(this, opts)];
-                            case 3:
-                                _a.sent();
-                                return [2 /*return*/];
-                        }
-                    });
-                });
+                var result = null;
+                if (typeof fn === "function") {
+                    result = fn.apply(this, opts);
+                }
+                if (typeof result === "object" && typeof (result === null || result === void 0 ? void 0 : result.then) === "function") {
+                    var that_1 = this;
+                    return (function runLifetimes() {
+                        var _a;
+                        return __awaiter(this, void 0, void 0, function () {
+                            return __generator(this, function (_b) {
+                                switch (_b.label) {
+                                    case 0: return [4 /*yield*/, result];
+                                    case 1:
+                                        _b.sent();
+                                        return [4 /*yield*/, ((_a = lifetimesFn === null || lifetimesFn === void 0 ? void 0 : lifetimesFn.apply) === null || _a === void 0 ? void 0 : _a.call(lifetimesFn, that_1, opts))];
+                                    case 2:
+                                        _b.sent();
+                                        return [2 /*return*/];
+                                }
+                            });
+                        });
+                    })();
+                }
+                return lifetimesFn.apply(this, opts);
             };
         });
         if (!(_that === null || _that === void 0 ? void 0 : _that.methods)) {

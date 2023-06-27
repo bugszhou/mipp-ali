@@ -125,12 +125,21 @@ export default class MiniComponent<IData = unknown> {
     Object.keys(_that?.lifetimes || {}).forEach((keyName) => {
       const fn = _that[keyName];
       const lifetimesFn = _that?.lifetimes[keyName];
-      _that[keyName] = async function newFn(...opts) {
+      _that[keyName] = function newFn(...opts) {
+        let result: any = null;
         if (typeof fn === "function") {
-          await fn.apply(this, opts);
+          result = fn.apply(this, opts);
         }
 
-        await lifetimesFn.apply(this, opts);
+        if (typeof result === "object" && typeof result?.then === "function") {
+          const that = this;
+          return (async function runLifetimes() {
+            await result;
+            await lifetimesFn?.apply?.(that, opts);
+          })();
+        }
+
+        return lifetimesFn.apply(this, opts);
       };
     });
 
