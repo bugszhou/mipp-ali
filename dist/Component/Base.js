@@ -358,25 +358,26 @@ function extendLifetime(UIInterface, methodName, descriptor) {
         for (var _i = 0; _i < arguments.length; _i++) {
             opts[_i] = arguments[_i];
         }
-        var result = (_a = beforeFn === null || beforeFn === void 0 ? void 0 : beforeFn.apply) === null || _a === void 0 ? void 0 : _a.call(beforeFn, this, opts);
-        if (typeof result === "object" && typeof (result === null || result === void 0 ? void 0 : result.then) === "function") {
-            var that_2 = this;
+        var that = this;
+        var currentResult = (_a = fn === null || fn === void 0 ? void 0 : fn.apply) === null || _a === void 0 ? void 0 : _a.call(fn, that, opts);
+        if (typeof currentResult === "object" &&
+            typeof (currentResult === null || currentResult === void 0 ? void 0 : currentResult.then) === "function") {
             return (function runLifetimes() {
                 var _a;
                 return __awaiter(this, void 0, void 0, function () {
                     return __generator(this, function (_b) {
                         switch (_b.label) {
-                            case 0: return [4 /*yield*/, result];
+                            case 0: return [4 /*yield*/, currentResult];
                             case 1:
                                 _b.sent();
-                                return [4 /*yield*/, ((_a = fn === null || fn === void 0 ? void 0 : fn.apply) === null || _a === void 0 ? void 0 : _a.call(fn, that_2, opts))];
+                                return [4 /*yield*/, ((_a = beforeFn === null || beforeFn === void 0 ? void 0 : beforeFn.apply) === null || _a === void 0 ? void 0 : _a.call(beforeFn, that, opts))];
                             case 2: return [2 /*return*/, _b.sent()];
                         }
                     });
                 });
             })();
         }
-        return (_b = fn === null || fn === void 0 ? void 0 : fn.apply) === null || _b === void 0 ? void 0 : _b.call(fn, this, opts);
+        return (_b = beforeFn === null || beforeFn === void 0 ? void 0 : beforeFn.apply) === null || _b === void 0 ? void 0 : _b.call(beforeFn, that, opts);
     };
 }
 exports.extendLifetime = extendLifetime;

@@ -320,16 +320,20 @@ export function extendLifetime(
   const fn = descriptor.value;
 
   UIInterface.lifetimes[methodName] = function newLifetime(...opts) {
-    const result = beforeFn?.apply?.(this, opts);
+    const that = this;
 
-    if (typeof result === "object" && typeof result?.then === "function") {
-      const that = this;
+    const currentResult = fn?.apply?.(that, opts);
+
+    if (
+      typeof currentResult === "object" &&
+      typeof currentResult?.then === "function"
+    ) {
       return (async function runLifetimes() {
-        await result;
-        return await fn?.apply?.(that, opts);
+        await currentResult;
+        return await beforeFn?.apply?.(that, opts);
       })();
     }
 
-    return fn?.apply?.(this, opts);
+    return beforeFn?.apply?.(that, opts);
   };
 }
