@@ -296,16 +296,17 @@ var MiniPageBase = /** @class */ (function () {
         };
         var createdFn = that === null || that === void 0 ? void 0 : that.onLoad;
         that.onLoad = function created() {
-            var _a;
+            var _a, _b;
             var opts = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 opts[_i] = arguments[_i];
             }
             try {
                 this.viewStatus = "load";
+                (_a = this === null || this === void 0 ? void 0 : this.beforeOnLoad) === null || _a === void 0 ? void 0 : _a.call.apply(_a, __spreadArrays([this], opts));
             }
-            catch (_b) { }
-            return (_a = createdFn === null || createdFn === void 0 ? void 0 : createdFn.apply) === null || _a === void 0 ? void 0 : _a.call(createdFn, this, opts);
+            catch (_c) { }
+            return (_b = createdFn === null || createdFn === void 0 ? void 0 : createdFn.apply) === null || _b === void 0 ? void 0 : _b.call(createdFn, this, opts);
         };
         var readyFn = that === null || that === void 0 ? void 0 : that.onReady;
         that.onReady = function ready() {
