@@ -9,6 +9,11 @@ import {
 type DataOption = Record<string, any>;
 
 export declare class Base<IData extends DataOption = any> {
+  static before(): {
+    onLoad: () => void;
+    onShow: () => void;
+    onReady: () => void;
+  };
   /**
    * 页面数据。
    */
@@ -127,6 +132,10 @@ export declare class MiniComponent<
   IData extends DataOption = DataOption,
   IProps = DataOption
 > {
+  static before(): {
+    created: () => void;
+    ready: () => void;
+  };
   /**
    * 页面数据。
    */
