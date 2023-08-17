@@ -173,7 +173,7 @@ var Base = /** @class */ (function () {
         return that;
     };
     Base.render = function (ins) {
-        Page(ins);
+        Page(Base.serialize(ins));
     };
     return Base;
 }());
@@ -202,7 +202,11 @@ var MiniPageBase = /** @class */ (function () {
             });
         });
     };
+    MiniPageBase.before = function () {
+        return Object.create(null);
+    };
     MiniPageBase.serialize = function (obj) {
+        var _a;
         var that = rfdc_1.default({ proto: true })(obj);
         var delProperties = __spreadArrays(obj.delProperties);
         var allProperties = __spreadArrays(Object.keys(obj), Object.keys(Object.getPrototypeOf(obj)));
@@ -212,105 +216,173 @@ var MiniPageBase = /** @class */ (function () {
             }
             that[key] = obj[key];
         });
+        var beforeObj = (_a = MiniPageBase === null || MiniPageBase === void 0 ? void 0 : MiniPageBase.before) === null || _a === void 0 ? void 0 : _a.call(MiniPageBase);
         var onShow = that.onShow;
-        that.onShow = function () {
+        that.onShow = function show() {
+            var _this = this;
+            var _a;
             var opts = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 opts[_i] = arguments[_i];
             }
-            return __awaiter(this, void 0, void 0, function () {
-                var result;
-                var _this = this;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            if (!(typeof onShow === "function")) return [3 /*break*/, 2];
-                            return [4 /*yield*/, onShow.apply(this, opts)];
-                        case 1:
-                            result = _a.sent();
-                            _a.label = 2;
-                        case 2:
-                            setTimeout(function () {
-                                var _a;
-                                if (Array.isArray(_this === null || _this === void 0 ? void 0 : _this.pageShow)) {
-                                    (_a = _this === null || _this === void 0 ? void 0 : _this.pageShow) === null || _a === void 0 ? void 0 : _a.forEach(function (item) { return __awaiter(_this, void 0, void 0, function () {
-                                        return __generator(this, function (_a) {
-                                            switch (_a.label) {
+            var result = (_a = onShow === null || onShow === void 0 ? void 0 : onShow.apply) === null || _a === void 0 ? void 0 : _a.call(onShow, this, opts);
+            if (typeof result === "object" && typeof (result === null || result === void 0 ? void 0 : result.then) === "function") {
+                return (function () { return __awaiter(_this, void 0, void 0, function () {
+                    var _this = this;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, result];
+                            case 1:
+                                result = _a.sent();
+                                setTimeout(function () {
+                                    (function () { return __awaiter(_this, void 0, void 0, function () {
+                                        var i, item;
+                                        var _a, _b;
+                                        return __generator(this, function (_c) {
+                                            switch (_c.label) {
                                                 case 0:
-                                                    if (!(typeof item === "function")) return [3 /*break*/, 2];
-                                                    return [4 /*yield*/, item.apply(void 0, opts)];
+                                                    if (!Array.isArray(this === null || this === void 0 ? void 0 : this.pageShow)) return [3 /*break*/, 4];
+                                                    i = 0;
+                                                    _c.label = 1;
                                                 case 1:
-                                                    _a.sent();
-                                                    _a.label = 2;
-                                                case 2: return [2 /*return*/];
+                                                    if (!(i < ((_a = this === null || this === void 0 ? void 0 : this.pageShow) === null || _a === void 0 ? void 0 : _a.length))) return [3 /*break*/, 4];
+                                                    item = (_b = this === null || this === void 0 ? void 0 : this.pageShow) === null || _b === void 0 ? void 0 : _b[i];
+                                                    return [4 /*yield*/, (item === null || item === void 0 ? void 0 : item.apply(void 0, opts))];
+                                                case 2:
+                                                    _c.sent();
+                                                    _c.label = 3;
+                                                case 3:
+                                                    ++i;
+                                                    return [3 /*break*/, 1];
+                                                case 4: return [2 /*return*/];
                                             }
                                         });
-                                    }); });
-                                }
-                            }, 0);
-                            return [2 /*return*/, result];
-                    }
-                });
-            });
+                                    }); })();
+                                }, 0);
+                                return [2 /*return*/, result];
+                        }
+                    });
+                }); })();
+            }
+            setTimeout(function () {
+                (function () { return __awaiter(_this, void 0, void 0, function () {
+                    var i, item;
+                    var _a, _b;
+                    return __generator(this, function (_c) {
+                        switch (_c.label) {
+                            case 0:
+                                if (!Array.isArray(this === null || this === void 0 ? void 0 : this.pageShow)) return [3 /*break*/, 4];
+                                i = 0;
+                                _c.label = 1;
+                            case 1:
+                                if (!(i < ((_a = this === null || this === void 0 ? void 0 : this.pageShow) === null || _a === void 0 ? void 0 : _a.length))) return [3 /*break*/, 4];
+                                item = (_b = this === null || this === void 0 ? void 0 : this.pageShow) === null || _b === void 0 ? void 0 : _b[i];
+                                return [4 /*yield*/, (item === null || item === void 0 ? void 0 : item.apply(void 0, opts))];
+                            case 2:
+                                _c.sent();
+                                _c.label = 3;
+                            case 3:
+                                ++i;
+                                return [3 /*break*/, 1];
+                            case 4: return [2 /*return*/];
+                        }
+                    });
+                }); })();
+            }, 0);
+            return result;
         };
         var onHide = that.onHide;
-        that.onHide = function () {
+        that.onHide = function hide() {
+            var _this = this;
+            var _a;
             var opts = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 opts[_i] = arguments[_i];
             }
-            return __awaiter(this, void 0, void 0, function () {
-                var result;
-                var _this = this;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            if (!(typeof onHide === "function")) return [3 /*break*/, 2];
-                            return [4 /*yield*/, onHide.apply(this, opts)];
-                        case 1:
-                            result = _a.sent();
-                            _a.label = 2;
-                        case 2:
-                            setTimeout(function () {
-                                var _a;
-                                if (Array.isArray(_this === null || _this === void 0 ? void 0 : _this.pageHide)) {
-                                    (_a = _this === null || _this === void 0 ? void 0 : _this.pageHide) === null || _a === void 0 ? void 0 : _a.forEach(function (item) { return __awaiter(_this, void 0, void 0, function () {
-                                        return __generator(this, function (_a) {
-                                            switch (_a.label) {
+            var result = (_a = onHide === null || onHide === void 0 ? void 0 : onHide.apply) === null || _a === void 0 ? void 0 : _a.call(onHide, this, opts);
+            if (typeof result === "object" && typeof (result === null || result === void 0 ? void 0 : result.then) === "function") {
+                return (function () { return __awaiter(_this, void 0, void 0, function () {
+                    var _this = this;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, result];
+                            case 1:
+                                result = _a.sent();
+                                setTimeout(function () {
+                                    (function () { return __awaiter(_this, void 0, void 0, function () {
+                                        var i, item;
+                                        var _a, _b;
+                                        return __generator(this, function (_c) {
+                                            switch (_c.label) {
                                                 case 0:
-                                                    if (!(typeof item === "function")) return [3 /*break*/, 2];
-                                                    return [4 /*yield*/, item.apply(void 0, opts)];
+                                                    if (!Array.isArray(this === null || this === void 0 ? void 0 : this.pageHide)) return [3 /*break*/, 4];
+                                                    i = 0;
+                                                    _c.label = 1;
                                                 case 1:
-                                                    _a.sent();
-                                                    _a.label = 2;
-                                                case 2: return [2 /*return*/];
+                                                    if (!(i < ((_a = this === null || this === void 0 ? void 0 : this.pageHide) === null || _a === void 0 ? void 0 : _a.length))) return [3 /*break*/, 4];
+                                                    item = (_b = this === null || this === void 0 ? void 0 : this.pageHide) === null || _b === void 0 ? void 0 : _b[i];
+                                                    return [4 /*yield*/, (item === null || item === void 0 ? void 0 : item.apply(void 0, opts))];
+                                                case 2:
+                                                    _c.sent();
+                                                    _c.label = 3;
+                                                case 3:
+                                                    ++i;
+                                                    return [3 /*break*/, 1];
+                                                case 4: return [2 /*return*/];
                                             }
                                         });
-                                    }); });
-                                }
-                            }, 0);
-                            return [2 /*return*/, result];
-                    }
-                });
-            });
+                                    }); })();
+                                }, 0);
+                                return [2 /*return*/, result];
+                        }
+                    });
+                }); })();
+            }
+            setTimeout(function () {
+                (function () { return __awaiter(_this, void 0, void 0, function () {
+                    var i, item;
+                    var _a, _b;
+                    return __generator(this, function (_c) {
+                        switch (_c.label) {
+                            case 0:
+                                if (!Array.isArray(this === null || this === void 0 ? void 0 : this.pageHide)) return [3 /*break*/, 4];
+                                i = 0;
+                                _c.label = 1;
+                            case 1:
+                                if (!(i < ((_a = this === null || this === void 0 ? void 0 : this.pageHide) === null || _a === void 0 ? void 0 : _a.length))) return [3 /*break*/, 4];
+                                item = (_b = this === null || this === void 0 ? void 0 : this.pageHide) === null || _b === void 0 ? void 0 : _b[i];
+                                return [4 /*yield*/, (item === null || item === void 0 ? void 0 : item.apply(void 0, opts))];
+                            case 2:
+                                _c.sent();
+                                _c.label = 3;
+                            case 3:
+                                ++i;
+                                return [3 /*break*/, 1];
+                            case 4: return [2 /*return*/];
+                        }
+                    });
+                }); })();
+            }, 0);
+            return result;
         };
         var createdFn = that === null || that === void 0 ? void 0 : that.onLoad;
         that.onLoad = function created() {
-            var _a, _b;
+            var _a, _b, _c;
             var opts = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 opts[_i] = arguments[_i];
             }
             try {
                 this.viewStatus = "load";
-                (_a = this === null || this === void 0 ? void 0 : this.beforeOnLoad) === null || _a === void 0 ? void 0 : _a.call.apply(_a, __spreadArrays([this], opts));
+                (_a = beforeObj === null || beforeObj === void 0 ? void 0 : beforeObj.onLoad) === null || _a === void 0 ? void 0 : _a.apply(this, opts);
+                (_b = this === null || this === void 0 ? void 0 : this.beforeOnLoad) === null || _b === void 0 ? void 0 : _b.call.apply(_b, __spreadArrays([this], opts));
             }
-            catch (_c) { }
-            return (_b = createdFn === null || createdFn === void 0 ? void 0 : createdFn.apply) === null || _b === void 0 ? void 0 : _b.call(createdFn, this, opts);
+            catch (_d) { }
+            return (_c = createdFn === null || createdFn === void 0 ? void 0 : createdFn.apply) === null || _c === void 0 ? void 0 : _c.call(createdFn, this, opts);
         };
         var readyFn = that === null || that === void 0 ? void 0 : that.onReady;
         that.onReady = function ready() {
-            var _a;
+            var _a, _b;
             var opts = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 opts[_i] = arguments[_i];
@@ -319,9 +391,10 @@ var MiniPageBase = /** @class */ (function () {
                 if (this.viewStatus !== "ready") {
                     this.viewStatus = "ready";
                 }
+                (_a = beforeObj === null || beforeObj === void 0 ? void 0 : beforeObj.onReady) === null || _a === void 0 ? void 0 : _a.apply(this, opts);
             }
-            catch (_b) { }
-            return (_a = readyFn === null || readyFn === void 0 ? void 0 : readyFn.apply) === null || _a === void 0 ? void 0 : _a.call(readyFn, this, opts);
+            catch (_c) { }
+            return (_b = readyFn === null || readyFn === void 0 ? void 0 : readyFn.apply) === null || _b === void 0 ? void 0 : _b.call(readyFn, this, opts);
         };
         return that;
     };

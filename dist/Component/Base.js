@@ -107,8 +107,11 @@ var MiniComponent = /** @class */ (function () {
             });
         });
     };
+    MiniComponent.before = function () {
+        return Object.create(null);
+    };
     MiniComponent.serialize = function (obj) {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f;
         var that = rfdc_2.default({ proto: true })(obj);
         var delProperties = __spreadArrays((Array.isArray(obj.delProperties) ? obj.delProperties : []));
         delProperties.forEach(function (item) {
@@ -127,23 +130,25 @@ var MiniComponent = /** @class */ (function () {
         if (!(_that === null || _that === void 0 ? void 0 : _that.lifetimes)) {
             _that.lifetimes = Object.create(null);
         }
-        var createdFn = ((_d = _that === null || _that === void 0 ? void 0 : _that.lifetimes) === null || _d === void 0 ? void 0 : _d.created) || (_that === null || _that === void 0 ? void 0 : _that.created);
+        var beforeObj = (_d = MiniComponent === null || MiniComponent === void 0 ? void 0 : MiniComponent.before) === null || _d === void 0 ? void 0 : _d.call(MiniComponent);
+        var createdFn = ((_e = _that === null || _that === void 0 ? void 0 : _that.lifetimes) === null || _e === void 0 ? void 0 : _e.created) || (_that === null || _that === void 0 ? void 0 : _that.created);
         _that.lifetimes.created = function created() {
-            var _a, _b;
+            var _a, _b, _c, _d;
             var opts = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 opts[_i] = arguments[_i];
             }
             try {
                 this.viewStatus = "load";
-                (_a = this === null || this === void 0 ? void 0 : this.beforeCreated) === null || _a === void 0 ? void 0 : _a.call.apply(_a, __spreadArrays([this], opts));
+                (_b = (_a = beforeObj === null || beforeObj === void 0 ? void 0 : beforeObj.created) === null || _a === void 0 ? void 0 : _a.apply) === null || _b === void 0 ? void 0 : _b.call(_a, this, opts);
+                (_c = this === null || this === void 0 ? void 0 : this.beforeCreated) === null || _c === void 0 ? void 0 : _c.call.apply(_c, __spreadArrays([this], opts));
             }
-            catch (_c) { }
-            return (_b = createdFn === null || createdFn === void 0 ? void 0 : createdFn.apply) === null || _b === void 0 ? void 0 : _b.call(createdFn, this, opts);
+            catch (_e) { }
+            return (_d = createdFn === null || createdFn === void 0 ? void 0 : createdFn.apply) === null || _d === void 0 ? void 0 : _d.call(createdFn, this, opts);
         };
-        var readyFn = ((_e = _that === null || _that === void 0 ? void 0 : _that.lifetimes) === null || _e === void 0 ? void 0 : _e.ready) || (_that === null || _that === void 0 ? void 0 : _that.ready);
+        var readyFn = ((_f = _that === null || _that === void 0 ? void 0 : _that.lifetimes) === null || _f === void 0 ? void 0 : _f.ready) || (_that === null || _that === void 0 ? void 0 : _that.ready);
         _that.lifetimes.ready = function ready() {
-            var _a;
+            var _a, _b, _c;
             var opts = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 opts[_i] = arguments[_i];
@@ -152,9 +157,10 @@ var MiniComponent = /** @class */ (function () {
                 if (this.viewStatus !== "ready") {
                     this.viewStatus = "ready";
                 }
+                (_b = (_a = beforeObj === null || beforeObj === void 0 ? void 0 : beforeObj.ready) === null || _a === void 0 ? void 0 : _a.apply) === null || _b === void 0 ? void 0 : _b.call(_a, this, opts);
             }
-            catch (_b) { }
-            return (_a = readyFn === null || readyFn === void 0 ? void 0 : readyFn.apply) === null || _a === void 0 ? void 0 : _a.call(readyFn, this, opts);
+            catch (_d) { }
+            return (_c = readyFn === null || readyFn === void 0 ? void 0 : readyFn.apply) === null || _c === void 0 ? void 0 : _c.call(readyFn, this, opts);
         };
         var mappings = (obj === null || obj === void 0 ? void 0 : obj.lifetimesMappings) || lifetimesMappings || {};
         Object.keys(mappings).forEach(function (keyName) {

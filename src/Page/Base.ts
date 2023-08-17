@@ -95,7 +95,7 @@ export default class Base<IData> {
   }
 
   static render<IData = any>(ins: Base<IData>) {
-    Page(ins);
+    Page(Base.serialize(ins));
   }
 }
 
@@ -120,6 +120,14 @@ export class MiniPageBase<IData> {
     });
   }
 
+  static before(): {
+    onLoad: () => void;
+    onShow: () => void;
+    onReady: () => void;
+  } {
+    return Object.create(null);
+  }
+
   static serialize(obj: any): any {
     const that = clone({ proto: true })(obj) as any;
 
@@ -136,42 +144,76 @@ export class MiniPageBase<IData> {
       that[key] = obj[key];
     });
 
+    const beforeObj = MiniPageBase?.before?.();
+
     const onShow = that.onShow;
 
-    that.onShow = async function (...opts) {
-      let result;
-      if (typeof onShow === "function") {
-        result = await onShow.apply(this, opts);
+    that.onShow = function show(...opts) {
+      let result = onShow?.apply?.(this, opts);
+
+      if (typeof result === "object" && typeof result?.then === "function") {
+        return (async () => {
+          result = await result;
+          setTimeout(() => {
+            (async () => {
+              if (Array.isArray(this?.pageShow)) {
+                for (let i = 0; i < this?.pageShow?.length; ++i) {
+                  const item = this?.pageShow?.[i];
+                  await item?.(...opts);
+                }
+              }
+            })();
+          }, 0);
+
+          return result;
+        })();
       }
 
       setTimeout(() => {
-        if (Array.isArray(this?.pageShow)) {
-          this?.pageShow?.forEach(async (item) => {
-            if (typeof item === "function") {
-              await item(...opts);
+        (async () => {
+          if (Array.isArray(this?.pageShow)) {
+            for (let i = 0; i < this?.pageShow?.length; ++i) {
+              const item = this?.pageShow?.[i];
+              await item?.(...opts);
             }
-          });
-        }
+          }
+        })();
       }, 0);
       return result;
     };
 
     const onHide = that.onHide;
 
-    that.onHide = async function (...opts) {
-      let result;
-      if (typeof onHide === "function") {
-        result = await onHide.apply(this, opts);
+    that.onHide = function hide(...opts) {
+      let result = onHide?.apply?.(this, opts);
+
+      if (typeof result === "object" && typeof result?.then === "function") {
+        return (async () => {
+          result = await result;
+          setTimeout(() => {
+            (async () => {
+              if (Array.isArray(this?.pageHide)) {
+                for (let i = 0; i < this?.pageHide?.length; ++i) {
+                  const item = this?.pageHide?.[i];
+                  await item?.(...opts);
+                }
+              }
+            })();
+          }, 0);
+
+          return result;
+        })();
       }
 
       setTimeout(() => {
-        if (Array.isArray(this?.pageHide)) {
-          this?.pageHide?.forEach(async (item) => {
-            if (typeof item === "function") {
-              await item(...opts);
+        (async () => {
+          if (Array.isArray(this?.pageHide)) {
+            for (let i = 0; i < this?.pageHide?.length; ++i) {
+              const item = this?.pageHide?.[i];
+              await item?.(...opts);
             }
-          });
-        }
+          }
+        })();
       }, 0);
       return result;
     };
@@ -180,6 +222,7 @@ export class MiniPageBase<IData> {
     that.onLoad = function created(...opts: any) {
       try {
         this.viewStatus = "load";
+        beforeObj?.onLoad?.apply(this, opts);
         this?.beforeOnLoad?.(...opts);
       } catch {}
       return createdFn?.apply?.(this, opts);
@@ -191,6 +234,7 @@ export class MiniPageBase<IData> {
         if (this.viewStatus !== "ready") {
           this.viewStatus = "ready";
         }
+        beforeObj?.onReady?.apply(this, opts);
       } catch {}
       return readyFn?.apply?.(this, opts);
     };

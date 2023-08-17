@@ -57,6 +57,13 @@ export default class MiniComponent<IData = unknown> {
     });
   }
 
+  static before(): {
+    created: () => void;
+    ready: () => void;
+  } {
+    return Object.create(null);
+  }
+
   static serialize<T extends MiniComponent<any> = MiniComponent<any>>(
     obj: T
   ): any {
@@ -85,10 +92,13 @@ export default class MiniComponent<IData = unknown> {
       _that.lifetimes = Object.create(null);
     }
 
+    const beforeObj = MiniComponent?.before?.();
+
     const createdFn = _that?.lifetimes?.created || _that?.created;
     _that.lifetimes.created = function created(...opts: any) {
       try {
         this.viewStatus = "load";
+        beforeObj?.created?.apply?.(this, opts);
         this?.beforeCreated?.(...opts);
       } catch {}
       return createdFn?.apply?.(this, opts);
@@ -100,6 +110,7 @@ export default class MiniComponent<IData = unknown> {
         if (this.viewStatus !== "ready") {
           this.viewStatus = "ready";
         }
+        beforeObj?.ready?.apply?.(this, opts);
       } catch {}
       return readyFn?.apply?.(this, opts);
     };
