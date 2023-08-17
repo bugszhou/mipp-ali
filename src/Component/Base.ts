@@ -57,10 +57,10 @@ export default class MiniComponent<IData = unknown> {
     });
   }
 
-  static before(): {
+  static before(): Partial<{
     created: () => void;
     ready: () => void;
-  } {
+  }> {
     return Object.create(null);
   }
 

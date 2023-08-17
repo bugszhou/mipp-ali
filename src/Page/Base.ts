@@ -120,11 +120,11 @@ export class MiniPageBase<IData> {
     });
   }
 
-  static before(): {
+  static before(): Partial<{
     onLoad: () => void;
     onShow: () => void;
     onReady: () => void;
-  } {
+  }> {
     return Object.create(null);
   }
 
