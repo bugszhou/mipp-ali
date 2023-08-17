@@ -6,6 +6,10 @@ export declare class ComponentBase<
   IData extends DataOption = DataOption,
   IProps = DataOption
 > {
+  static before(): {
+    created: () => void;
+    ready: () => void;
+  };
   /** 页面的文件路径 */
   is: string;
 
