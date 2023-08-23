@@ -220,11 +220,28 @@ export class MiniPageBase<IData> {
 
     const createdFn = that?.onLoad;
     that.onLoad = function created(...opts: any) {
+      this.viewStatus = "load";
+      let isError = false;
+
       try {
-        this.viewStatus = "load";
         beforeObj?.onLoad?.apply(this, opts);
+      } catch (e) {
+        console.error(e);
+        isError = true;
+      }
+
+      if (isError) {
+        return;
+      }
+
+      isError = false;
+
+      try {
         this?.beforeOnLoad?.(...opts);
-      } catch {}
+      } catch (e) {
+        console.error(e);
+      }
+
       return createdFn?.apply?.(this, opts);
     };
 
@@ -234,8 +251,23 @@ export class MiniPageBase<IData> {
         if (this.viewStatus !== "ready") {
           this.viewStatus = "ready";
         }
-        beforeObj?.onReady?.apply(this, opts);
       } catch {}
+
+      let isError = false;
+
+      try {
+        beforeObj?.onReady?.apply(this, opts);
+      } catch (e) {
+        console.error(e);
+        isError = true;
+      }
+
+      if (isError) {
+        return;
+      }
+
+      isError = false;
+
       return readyFn?.apply?.(this, opts);
     };
 
