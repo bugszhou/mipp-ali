@@ -396,7 +396,7 @@ var MiniPageBase = /** @class */ (function () {
         var readyFn = that === null || that === void 0 ? void 0 : that.onReady;
         that.onReady = function ready() {
             var _this = this;
-            var _a, _b;
+            var _a, _b, _c, _d;
             var opts = [];
             for (var _i = 0; _i < arguments.length; _i++) {
                 opts[_i] = arguments[_i];
@@ -406,7 +406,7 @@ var MiniPageBase = /** @class */ (function () {
                     this.viewStatus = "ready";
                 }
             }
-            catch (_c) { }
+            catch (_e) { }
             var isError = false;
             var beforeResult = null;
             try {
@@ -434,6 +434,9 @@ var MiniPageBase = /** @class */ (function () {
                         }
                     });
                 }); })();
+            }
+            else {
+                (_d = (_c = that === null || that === void 0 ? void 0 : that.onReadyAsync) === null || _c === void 0 ? void 0 : _c.apply) === null || _d === void 0 ? void 0 : _d.call(_c, this, opts);
             }
             return readyResult;
         };
