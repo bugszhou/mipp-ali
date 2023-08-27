@@ -262,7 +262,7 @@ export interface IPageOptions<Data, ExtraOptions extends UnknownRecord> {
    * 
    * 【用于全局的异步 before执行后再执行】
    */
-  onReadyAsync(): void;
+  onReadyAsync(): any;
   /**
    * 页面隐藏
    */
