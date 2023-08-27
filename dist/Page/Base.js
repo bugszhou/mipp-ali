@@ -395,6 +395,7 @@ var MiniPageBase = /** @class */ (function () {
         };
         var readyFn = that === null || that === void 0 ? void 0 : that.onReady;
         that.onReady = function ready() {
+            var _this = this;
             var _a, _b;
             var opts = [];
             for (var _i = 0; _i < arguments.length; _i++) {
@@ -407,8 +408,9 @@ var MiniPageBase = /** @class */ (function () {
             }
             catch (_c) { }
             var isError = false;
+            var beforeResult = null;
             try {
-                (_a = beforeObj === null || beforeObj === void 0 ? void 0 : beforeObj.onReady) === null || _a === void 0 ? void 0 : _a.apply(this, opts);
+                beforeResult = (_a = beforeObj === null || beforeObj === void 0 ? void 0 : beforeObj.onReady) === null || _a === void 0 ? void 0 : _a.apply(this, opts);
             }
             catch (e) {
                 console.error(e);
@@ -418,7 +420,22 @@ var MiniPageBase = /** @class */ (function () {
                 return;
             }
             isError = false;
-            return (_b = readyFn === null || readyFn === void 0 ? void 0 : readyFn.apply) === null || _b === void 0 ? void 0 : _b.call(readyFn, this, opts);
+            var readyResult = (_b = readyFn === null || readyFn === void 0 ? void 0 : readyFn.apply) === null || _b === void 0 ? void 0 : _b.call(readyFn, this, opts);
+            if (typeof beforeResult === "object" &&
+                typeof (beforeResult === null || beforeResult === void 0 ? void 0 : beforeResult.then) === "function") {
+                (function () { return __awaiter(_this, void 0, void 0, function () {
+                    var _a, _b;
+                    return __generator(this, function (_c) {
+                        switch (_c.label) {
+                            case 0: return [4 /*yield*/, beforeResult];
+                            case 1:
+                                _c.sent();
+                                return [2 /*return*/, (_b = (_a = that === null || that === void 0 ? void 0 : that.onReadyAsync) === null || _a === void 0 ? void 0 : _a.apply) === null || _b === void 0 ? void 0 : _b.call(_a, this, opts)];
+                        }
+                    });
+                }); })();
+            }
+            return readyResult;
         };
         return that;
     };

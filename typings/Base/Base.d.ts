@@ -80,6 +80,12 @@ export declare class Base<IData extends DataOption = any> {
    */
   onReady(): void;
   /**
+   * 页面加载完成，执行异步的逻辑
+   * 
+   * 【用于全局的异步 before执行后再执行】
+   */
+  onReadyAsync(): void;
+  /**
    * 页面隐藏
    */
   onHide(): void;
