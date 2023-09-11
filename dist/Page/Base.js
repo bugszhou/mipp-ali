@@ -433,7 +433,7 @@ var MiniPageBase = /** @class */ (function () {
                                 return [4 /*yield*/, ((_b = (_a = that === null || that === void 0 ? void 0 : that.onReadyAsync) === null || _a === void 0 ? void 0 : _a.apply) === null || _b === void 0 ? void 0 : _b.call(_a, this, opts))];
                             case 2:
                                 _e.sent();
-                                return [4 /*yield*/, ((_d = (_c = that === null || that === void 0 ? void 0 : that.render) === null || _c === void 0 ? void 0 : _c.apply) === null || _d === void 0 ? void 0 : _d.call(_c, this, opts))];
+                                return [4 /*yield*/, ((_d = (_c = that === null || that === void 0 ? void 0 : that.renderView) === null || _c === void 0 ? void 0 : _c.apply) === null || _d === void 0 ? void 0 : _d.call(_c, this, opts))];
                             case 3:
                                 _e.sent();
                                 return [2 /*return*/, readyResult];
@@ -443,7 +443,7 @@ var MiniPageBase = /** @class */ (function () {
             }
             else {
                 (_d = (_c = that === null || that === void 0 ? void 0 : that.onReadyAsync) === null || _c === void 0 ? void 0 : _c.apply) === null || _d === void 0 ? void 0 : _d.call(_c, this, opts);
-                (_f = (_e = that === null || that === void 0 ? void 0 : that.render) === null || _e === void 0 ? void 0 : _e.apply) === null || _f === void 0 ? void 0 : _f.call(_e, this, opts);
+                (_f = (_e = that === null || that === void 0 ? void 0 : that.renderView) === null || _e === void 0 ? void 0 : _e.apply) === null || _f === void 0 ? void 0 : _f.call(_e, this, opts);
             }
             return readyResult;
         };
