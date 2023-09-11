@@ -277,10 +277,13 @@ export class MiniPageBase<IData> {
       ) {
         (async () => {
           await beforeResult;
-          return that?.onReadyAsync?.apply?.(this, opts);
+          await that?.onReadyAsync?.apply?.(this, opts);
+          await that?.render?.apply?.(this, opts);
+          return readyResult;
         })();
       } else {
         that?.onReadyAsync?.apply?.(this, opts);
+        that?.render?.apply?.(this, opts);
       }
 
       return readyResult;
