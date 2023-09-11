@@ -81,10 +81,16 @@ export declare class Base<IData extends DataOption = any> {
   onReady(): void;
   /**
    * 页面加载完成，执行异步的逻辑
-   * 
+   *
    * 【用于全局的异步 before执行后再执行】
    */
-  onReadyAsync(): any;
+  onReadyAsync(): void;
+  /**
+   * 页面加载完成，执行异步的逻辑
+   *
+   * 【用于全局的异步 before执行后再执行】
+   */
+  renderView(): void;
   /**
    * 页面隐藏
    */
@@ -240,6 +246,20 @@ export declare class MiniComponent<
    * 等同于didMount
    */
   ready(): void;
+
+  /**
+   * 在组件在视图层布局完成后执行，用于异步执行
+   *
+   * 最低基础库版本：[`1.6.3`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+   */
+  readyAsync(): void;
+
+  /**
+   * 在组件在视图层布局完成后执行，用于异步执行
+   *
+   * 最低基础库版本：[`1.6.3`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+   */
+  renderView(): void;
   /**
    * 组件生命周期函数，组件更新完毕时触发
    */

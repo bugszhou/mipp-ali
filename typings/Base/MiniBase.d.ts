@@ -75,6 +75,20 @@ export declare class ComponentBase<
    * 最低基础库版本：[`1.6.3`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
    */
   ready(): void;
+
+  /**
+   * 在组件在视图层布局完成后执行，用于异步执行
+   *
+   * 最低基础库版本：[`1.6.3`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+   */
+  readyAsync(): void;
+
+  /**
+   * 在组件在视图层布局完成后执行，用于异步执行
+   *
+   * 最低基础库版本：[`1.6.3`](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html)
+   */
+  renderView(): void;
   /**
    * 在组件实例被从页面节点树移除时执行
    *

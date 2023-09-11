@@ -110,9 +110,48 @@ export default class MiniComponent<IData = unknown> {
         if (this.viewStatus !== "ready") {
           this.viewStatus = "ready";
         }
-        beforeObj?.ready?.apply?.(this, opts);
       } catch {}
-      return readyFn?.apply?.(this, opts);
+
+      let isError = false;
+      let beforeResult: any = null;
+
+      try {
+        beforeResult = beforeObj?.ready?.apply(this, opts);
+      } catch (e) {
+        console.error(e);
+        isError = true;
+      }
+
+      if (isError) {
+        return;
+      }
+
+      isError = false;
+
+      try {
+        this?.beforeOnReady?.(...opts);
+      } catch (e) {
+        console.error(e);
+      }
+
+      let readyResult = readyFn?.apply?.(this, opts);
+
+      if (
+        typeof beforeResult === "object" &&
+        typeof beforeResult?.then === "function"
+      ) {
+        (async () => {
+          await beforeResult;
+          await _that?.readyAsync?.apply?.(this, opts);
+          await _that?.renderView?.apply?.(this, opts);
+          return readyResult;
+        })();
+      } else {
+        _that?.readyAsync?.apply?.(this, opts);
+        _that?.renderView?.apply?.(this, opts);
+      }
+
+      return readyResult;
     };
 
     const mappings = obj?.lifetimesMappings || lifetimesMappings || {};
