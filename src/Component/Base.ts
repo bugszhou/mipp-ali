@@ -142,13 +142,13 @@ export default class MiniComponent<IData = unknown> {
       ) {
         (async () => {
           await beforeResult;
-          await _that?.readyAsync?.apply?.(this, opts);
-          await _that?.renderView?.apply?.(this, opts);
+          await this?.readyAsync?.apply?.(this, opts);
+          await this?.renderView?.apply?.(this, opts);
           return readyResult;
         })();
       } else {
-        _that?.readyAsync?.apply?.(this, opts);
-        _that?.renderView?.apply?.(this, opts);
+        this?.readyAsync?.apply?.(this, opts);
+        this?.renderView?.apply?.(this, opts);
       }
 
       return readyResult;

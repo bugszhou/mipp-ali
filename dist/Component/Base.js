@@ -189,10 +189,10 @@ var MiniComponent = /** @class */ (function () {
                             case 0: return [4 /*yield*/, beforeResult];
                             case 1:
                                 _e.sent();
-                                return [4 /*yield*/, ((_b = (_a = _that === null || _that === void 0 ? void 0 : _that.readyAsync) === null || _a === void 0 ? void 0 : _a.apply) === null || _b === void 0 ? void 0 : _b.call(_a, this, opts))];
+                                return [4 /*yield*/, ((_b = (_a = this === null || this === void 0 ? void 0 : this.readyAsync) === null || _a === void 0 ? void 0 : _a.apply) === null || _b === void 0 ? void 0 : _b.call(_a, this, opts))];
                             case 2:
                                 _e.sent();
-                                return [4 /*yield*/, ((_d = (_c = _that === null || _that === void 0 ? void 0 : _that.renderView) === null || _c === void 0 ? void 0 : _c.apply) === null || _d === void 0 ? void 0 : _d.call(_c, this, opts))];
+                                return [4 /*yield*/, ((_d = (_c = this === null || this === void 0 ? void 0 : this.renderView) === null || _c === void 0 ? void 0 : _c.apply) === null || _d === void 0 ? void 0 : _d.call(_c, this, opts))];
                             case 3:
                                 _e.sent();
                                 return [2 /*return*/, readyResult];
@@ -201,8 +201,8 @@ var MiniComponent = /** @class */ (function () {
                 }); })();
             }
             else {
-                (_e = (_d = _that === null || _that === void 0 ? void 0 : _that.readyAsync) === null || _d === void 0 ? void 0 : _d.apply) === null || _e === void 0 ? void 0 : _e.call(_d, this, opts);
-                (_g = (_f = _that === null || _that === void 0 ? void 0 : _that.renderView) === null || _f === void 0 ? void 0 : _f.apply) === null || _g === void 0 ? void 0 : _g.call(_f, this, opts);
+                (_e = (_d = this === null || this === void 0 ? void 0 : this.readyAsync) === null || _d === void 0 ? void 0 : _d.apply) === null || _e === void 0 ? void 0 : _e.call(_d, this, opts);
+                (_g = (_f = this === null || this === void 0 ? void 0 : this.renderView) === null || _f === void 0 ? void 0 : _f.apply) === null || _g === void 0 ? void 0 : _g.call(_f, this, opts);
             }
             return readyResult;
         };
